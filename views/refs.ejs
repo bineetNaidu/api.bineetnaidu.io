@@ -1,0 +1,49 @@
+<% layout('boilerplate') -%>
+<style>
+  .refs {
+    padding: 20px;
+  }
+
+  .refs__header {
+    text-decoration: underline;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .refs__table {
+    margin: 0 auto;
+  }
+
+  .refs__table td,
+  .refs__table th {
+    padding: 3px 30px;
+  }
+
+  /* .refs__table tr:nth-of-type(odd) {
+    background: #000;
+  } */
+</style>
+
+<div class="refs">
+  <h3 class="refs__header">Welcome to API's Referenses</h3>
+
+  <table class="refs__table" border="1.5">
+    <thead>
+      <th>Sr.</th>
+      <th>API</th>
+      <th>Link</th>
+      <th>Description</th>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>Surf Shop</td>
+        <td><a href="/api/v1/surf-shop">/api/v1/surf-shop</a></td>
+        <td>
+          @desc A React JS project. <br />
+          @access PRIVATE.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -10,6 +10,7 @@ const helmet = require('helmet');
 
 // ROUTES
 const indexRouter = require('./routes/index');
+const refsRouter = require('./routes/refs');
 
 const app = express();
 
@@ -29,6 +30,7 @@ app.use(helmet());
 
 // UNMOUNTING ROUTES
 app.use('/', indexRouter);
+app.use('/refs', refsRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
