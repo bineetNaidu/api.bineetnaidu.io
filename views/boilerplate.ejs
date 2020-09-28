@@ -1,11 +1,37 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>my-API server</title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <!-- fontawesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
+      integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog=="
+      crossorigin="anonymous"
+    />
+    <!-- custom css -->
+    <link rel="stylesheet" href="/stylesheets/style.css" />
   </head>
-
   <body>
-    <div><%- body -%></section>
+    <div class="wrapper">
+      <div class="wrapper__container">
+        <div class="tile__bar">
+          <div class="tile__icons">
+            <div class="icons__yellow"></div>
+            <div class="icons__red"></div>
+            <div class="icons__green"></div>
+          </div>
+
+          <div class="tile__brand">
+            <h1><%= title %></h1>
+          </div>
+          <i class="fab fa-apple"></i>
+        </div>
+
+        <div class="wrapper__holder"><%- body -%></div>
+      </div>
+    </div>
   </body>
 </html>
