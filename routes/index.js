@@ -7,4 +7,8 @@ router.get('/', (req, res) => {
   res.render('index', { title: 'Home' });
 });
 
+router.get('/docs', (req, res) => {
+  res.render('docs', { title: 'Referances' });
+});
+
 module.exports = router;
