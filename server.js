@@ -1,12 +1,22 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
+import dotenv from 'dotenv';
+/* eslint-disable import/extensions */
+/* eslint-disable no-console */
 // ***** IMPORT *****
 import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import createError from 'http-errors';
 import logger from 'morgan';
+import connectDB from './config/database.js';
 
 // ***** App Config *****
+if (process.env.NODE_ENV !== 'production') {
+  dotenv.config();
+}
+
 const app = express();
+connectDB();
 
 // ***** Middlewares *****
 app.use(express.json());
