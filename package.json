@@ -28,10 +28,10 @@
     "helmet": "^4.1.1",
     "http-errors": "^1.8.0",
     "mongoose": "^5.10.9",
+    "dotenv": "^8.2.0",
     "morgan": "^1.10.0"
   },
   "devDependencies": {
-    "dotenv": "^8.2.0",
     "eslint": "^7.11.0",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-plugin-import": "^2.22.1",
