@@ -1,32 +1,36 @@
 {
   "name": "my-api",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "private": true,
-  "author": "Bineet Naidu",
-  "description": "API's for projects",
-  "license": "MIT",
-  "scripts": {
-    "start": "node ./bin/www",
-    "dev": "nodemon ./bin/www"
+  "description": "A Node js server for my API's.",
+  "main": "server.js",
+  "type": "module",
+  "engines": {
+    "node": "14.x"
   },
+  "scripts": {
+    "start": "NODE_ENV=production node server",
+    "dev": "nodemon server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bineetNaidu/my-api.git"
+  },
+  "author": "Bineet Naidu",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bineetNaidu/my-api/issues"
+  },
+  "homepage": "https://github.com/bineetNaidu/my-api#readme",
   "dependencies": {
-    "cookie-parser": "~1.4.5",
     "cors": "^2.8.5",
-    "debug": "~4.2.0",
-    "dotenv": "^8.2.0",
-    "ejs": "~3.1.5",
-    "ejs-mate": "^3.0.0",
-    "express": "~4.17.1",
+    "express": "^4.17.1",
     "helmet": "^4.1.1",
-    "http-errors": "~1.8.0",
-    "mongoose": "^5.10.7",
-    "morgan": "~1.10.0"
+    "http-errors": "^1.8.0",
+    "mongoose": "^5.10.9",
+    "morgan": "^1.10.0"
   },
   "devDependencies": {
-    "eslint": "^7.10.0",
-    "eslint-config-airbnb-base": "^14.2.0",
-    "eslint-plugin-import": "^2.22.0",
-    "locus": "^2.0.4",
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.5"
   }
 }

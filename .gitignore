@@ -73,8 +73,6 @@ web_modules/
 .env
 .env.test
 config.env
-config/config.env
-config/.env
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
@@ -119,4 +117,3 @@ dist
 .yarn/install-state.gz
 .pnp.*
  
-/public/images
