@@ -10,6 +10,8 @@ import createError from 'http-errors';
 import logger from 'morgan';
 import connectDB from './config/database.js';
 
+import maplifyRoutes from './routes/maplify.js'; // ? Maplify
+
 // ***** App Config *****
 if (process.env.NODE_ENV !== 'production') {
   dotenv.config();
@@ -26,6 +28,7 @@ app.use(helmet());
 
 // ***** Unmount Routes *****
 app.get('/', (_, res) => res.json({ Greet: 'Hello World' }));
+app.use('/api/v1/maplify', maplifyRoutes);
 
 //! catch 404 and forward to error handler
 app.use((_, __, next) => {
