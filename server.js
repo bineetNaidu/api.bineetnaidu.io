@@ -6,7 +6,7 @@ import dotenv from 'dotenv';
 import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
-import createError from 'http-errors';
+import CreateError from 'http-errors';
 import logger from 'morgan';
 import connectDB from './config/database.js';
 
@@ -31,14 +31,13 @@ app.get('/', (_, res) => res.json({ Greet: 'Hello World' }));
 app.use('/api/v1/maplify', maplifyRoutes);
 
 //! catch 404 and forward to error handler
-app.use((_, __, next) => {
-  next(createError(404));
-});
+app.all('*', (_, __, next) => next(new CreateError(404)));
 
 //! error handler
-app.use((err, _, res) => {
-  res.status(err.status || 500);
-  res.json({ error: err.message, status: err.status });
+// eslint-disable-next-line no-unused-vars
+app.use((err, req, res, _next) => {
+  const { statusCode = 500 } = err;
+  res.json({ error: err.message, status: statusCode });
 });
 
 // **** Listeners ****
