@@ -17,7 +17,7 @@
     "url": "git+https://github.com/bineetNaidu/my-api.git"
   },
   "author": "Bineet Naidu",
-  "license": "MIT",
+  "license": "GNU AGPLv3",
   "bugs": {
     "url": "https://github.com/bineetNaidu/my-api/issues"
   },
