@@ -31,11 +31,11 @@ app.get('/', (_, res) => res.json({ Greet: 'Hello World' }));
 app.use('/api/v1/maplify', maplifyRoutes);
 
 //! catch 404 and forward to error handler
-app.all('*', (_, __, next) => next(new CreateError(404)));
+app.all('*', (req, res, next) => next(new CreateError(404)));
 
 //! error handler
 // eslint-disable-next-line no-unused-vars
-app.use((err, req, res, _next) => {
+app.use((err, req, res, next) => {
   const { statusCode = 500 } = err;
   res.json({ error: err.message, status: statusCode });
 });

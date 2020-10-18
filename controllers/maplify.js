@@ -5,7 +5,7 @@ import Maplify from '../models/Maplify.js';
 // @desc GET - get all maps data
 // @access PUBLIC
 export const getMapsData = async (req, res) => {
-  const data = await Maplify.find({});
+  const data = await Maplify.find();
   res.json({ data, success: true, length: data.length });
 };
 
@@ -14,7 +14,8 @@ export const getMapsData = async (req, res) => {
 export const createMapData = async (req, res) => {
   if (req.query.accessKey === process.env.ACCESS_KEY) {
     const data = new Maplify(req.body);
-    res.json({ data, success: true, length: data.length });
+    await data.save();
+    return res.json({ data, success: true, length: data.length });
   }
   throw new Error('Access Denied!!!');
 };
