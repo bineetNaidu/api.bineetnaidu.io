@@ -1,0 +1,9 @@
+version: '3.8'
+services:
+  mymongo:
+    image: 'mongo'
+
+  myserver:
+    build: .
+    ports:
+      - '4242:4242'

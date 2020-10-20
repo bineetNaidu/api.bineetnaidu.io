@@ -1,5 +1,5 @@
 {
-  "name": "my-api",
+  "name": "my-server",
   "version": "1.0.0",
   "private": true,
   "description": "A Node js server for my API's.",

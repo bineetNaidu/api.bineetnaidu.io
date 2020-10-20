@@ -41,7 +41,7 @@ app.use((err, req, res, next) => {
 });
 
 // **** Listeners ****
-app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT || 4242, () => {
   console.log('-----------------------------------------');
   console.log('>>>>>>> API SERVER HAS STARTED <<<<<<<<');
   console.log('-----------------------------------------');
