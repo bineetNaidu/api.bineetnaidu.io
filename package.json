@@ -16,7 +16,10 @@
     "type": "git",
     "url": "git+https://github.com/bineetNaidu/my-api.git"
   },
-  "author": "Bineet Naidu",
+  "author": {
+    "name": "Bineet Naidu",
+    "url": "https://bineetnaidu.web.app"
+  },
   "license": "GNU AGPLv3",
   "bugs": {
     "url": "https://github.com/bineetNaidu/my-api/issues"
@@ -25,16 +28,16 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "helmet": "^4.1.1",
+    "helmet": "^4.2.0",
     "http-errors": "^1.8.0",
-    "mongoose": "^5.10.9",
+    "mongoose": "^5.10.14",
     "dotenv": "^8.2.0",
     "morgan": "^1.10.0"
   },
   "devDependencies": {
-    "eslint": "^7.11.0",
-    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint": "^7.13.0",
+    "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.22.1",
-    "nodemon": "^2.0.5"
+    "nodemon": "^2.0.6"
   }
 }
