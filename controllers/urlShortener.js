@@ -5,15 +5,14 @@ import UrlShortener from '../models/UrlShortener.model.js';
 
 export const getUrlbySlug = async (req, res) => {
   const { slug } = req.params;
+  if (!slug) throw new Error('No slug was provided');
   const url = await UrlShortener.findOne({ slug });
-  res.status(200).json({
-    url: url.original_url,
-    success: true,
-  });
+  res.redirect(url.original_url);
 };
 
 export const createShortenUrl = async (req, res) => {
   const { url, slug } = req.body;
+  if (!url) throw new Error('Please Provide with url to create shorten url');
   const newSlug = nanoid(10);
   const newShortenUrl = new UrlShortener({
     original_url: url,
