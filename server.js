@@ -11,6 +11,7 @@ import logger from 'morgan';
 import connectDB from './config/database.js';
 
 import maplifyRoutes from './routes/maplify.js'; // ? Maplify
+import urlShortenerRoutes from './routes/urlShortener.router.js'; // ? Url Shrotener
 
 // ***** App Config *****
 if (process.env.NODE_ENV !== 'production') {
@@ -29,6 +30,7 @@ app.use(helmet());
 // ***** Unmount Routes *****
 app.get('/', (_, res) => res.json({ Greet: 'Hello World' }));
 app.use('/api/v1/maplify', maplifyRoutes);
+app.use('/api/v1/urlshortener', urlShortenerRoutes);
 
 //! catch 404 and forward to error handler
 app.all('*', (req, res, next) => next(new CreateError(404)));
