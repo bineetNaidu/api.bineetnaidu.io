@@ -8,45 +8,55 @@
   <body>
     <form id="urlShortener_form">
       <input type="text" placeholder="URL" id="urlShortener_url" />
-      <input type="text" placeholder="Slug" id="urlShortener_slug" />
+      <input type="text" placeholder="Slug" id="urlShortener_slug" hidden />
       <button type="submit" id="urlShortener_btn">Create!</button>
     </form>
+
+    <div id="urlshortener_markdown"></div>
   </body>
 
   <script>
-    const urlShortenerBtn = document.querySelector('#urlShortener_btn'); // as HTMLButtonElement;
-    const urlShortenerUrl = document.querySelector('#urlShortener_url'); // as HTMLInputElement;
-    const urlShortenerSlug = document.querySelector('#urlShortener_slug'); // as HTMLInputElement;
+    const urlShortenerBtn = document.querySelector('#urlShortener_btn');
+    const urlShortenerUrl = document.querySelector('#urlShortener_url');
+    const urlShortenerSlug = document.querySelector('#urlShortener_slug');
+    const urlshortenerMarkdown = document.querySelector(
+      '#urlshortener_markdown'
+    );
 
-    let original_url;
-    let slug;
+    let markdown;
     let data;
 
-    if (urlShortenerSlug.value === '') {
-      data = {
-        url: urlShortenerUrl.value,
-      };
-    } else {
-      data = {
-        url: urlShortenerUrl.value,
-        slug: urlShortenerSlug.value,
-      };
-    }
-
     urlShortenerBtn.addEventListener('click', (e) => {
+      console.log(urlShortenerUrl.value);
       e.preventDefault();
-      // if (data) {
+      if (urlShortenerSlug.value === '') {
+        data = {
+          url: urlShortenerUrl.value,
+        };
+      } else {
+        data = {
+          url: urlShortenerUrl.value,
+          slug: urlShortenerSlug.value,
+        };
+      }
       fetch('/api/v1/urlshortener/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: { url: urlShortenerUrl.value },
+        body: JSON.stringify(data),
       })
         .then((apiData) => apiData.json())
         .then((res) => {
-          console.log(res);
+          if (res.success) {
+            markdown = `
+            <h2>Original URL: <a href="${res.url.original_url}">${res.url.original_url}</a></h2>
+            <h2>Slug: <a href="/api/vi/urlshortener/${res.url.slug}">${res.url.slug}</a></h2>
+            `;
+            urlshortenerMarkdown.innerHTML = markdown;
+          } else {
+            alert('Something went Wrong!');
+          }
         })
         .catch((e) => alert(e.message));
-      // }
     });
   </script>
 </html>
