@@ -5,6 +5,7 @@ import asyncWrapper from '../utils/asyncWrapper.js';
 
 const router = Router();
 
+router.get('/', (_, res) => res.render('urlshortener'));
 router.post('/', asyncWrapper(createShortenUrl));
 router.get('/:slug', asyncWrapper(getUrlbySlug));
 
