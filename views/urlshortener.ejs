@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Url Shortener</title>
+  </head>
+  <body>
+    <form id="urlShortener_form">
+      <input type="text" placeholder="URL" id="urlShortener_url" />
+      <input type="text" placeholder="Slug" id="urlShortener_slug" />
+      <button type="submit" id="urlShortener_btn">Create!</button>
+    </form>
+  </body>
+
+  <script>
+    const urlShortenerBtn = document.querySelector('#urlShortener_btn'); // as HTMLButtonElement;
+    const urlShortenerUrl = document.querySelector('#urlShortener_url'); // as HTMLInputElement;
+    const urlShortenerSlug = document.querySelector('#urlShortener_slug'); // as HTMLInputElement;
+
+    let original_url;
+    let slug;
+    let data;
+
+    if (urlShortenerSlug.value === '') {
+      data = {
+        url: urlShortenerUrl.value,
+      };
+    } else {
+      data = {
+        url: urlShortenerUrl.value,
+        slug: urlShortenerSlug.value,
+      };
+    }
+
+    urlShortenerBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      // if (data) {
+      fetch('/api/v1/urlshortener/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: { url: urlShortenerUrl.value },
+      })
+        .then((apiData) => apiData.json())
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((e) => alert(e.message));
+      // }
+    });
+  </script>
+</html>
