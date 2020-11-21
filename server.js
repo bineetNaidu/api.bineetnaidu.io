@@ -14,6 +14,14 @@ import connectDB from './config/database.js';
 import maplifyRoutes from './routes/maplify.js'; // ? Maplify
 import urlShortenerRoutes from './routes/urlShortener.router.js'; // ? Url Shrotener
 
+// ? Security Content allowed sites
+import {
+  connectSrcUrls,
+  fontSrcUrls,
+  scriptSrcUrls,
+  styleSrcUrls,
+} from './utils/contentPoliciesAllowedSites.js';
+
 // ***** App Config *****
 if (process.env.NODE_ENV !== 'production') {
   dotenv.config();
@@ -32,12 +40,13 @@ app.use(
   helmet.contentSecurityPolicy({
     directives: {
       defaultSrc: [],
-      connectSrc: ["'self'"],
-      scriptSrc: ["'unsafe-inline'", "'self'"],
-      styleSrc: ["'self'", "'unsafe-inline'"],
+      connectSrc: ["'self'", ...connectSrcUrls],
+      scriptSrc: ["'unsafe-inline'", "'self'", ...scriptSrcUrls],
+      styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
       workerSrc: ["'self'", 'blob:'],
       objectSrc: [],
       imgSrc: ["'self'", 'blob:', 'data:', 'https://images.unsplash.com/'],
+      fontSrc: ["'self'", ...fontSrcUrls],
     },
     // eslint-disable-next-line comma-dangle
   })
