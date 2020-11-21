@@ -8,6 +8,7 @@ import helmet from 'helmet';
 import cors from 'cors';
 import CreateError from 'http-errors';
 import logger from 'morgan';
+import path from 'path';
 import connectDB from './config/database.js';
 
 import maplifyRoutes from './routes/maplify.js'; // ? Maplify
@@ -24,8 +25,23 @@ connectDB();
 // ***** Middlewares *****
 app.use(express.json());
 app.use(logger('dev'));
+app.set('view engine', 'ejs');
+app.set(path.join('views'));
 app.use(cors());
-app.use(helmet());
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: [],
+      connectSrc: ["'self'"],
+      scriptSrc: ["'unsafe-inline'", "'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      workerSrc: ["'self'", 'blob:'],
+      objectSrc: [],
+      imgSrc: ["'self'", 'blob:', 'data:', 'https://images.unsplash.com/'],
+    },
+    // eslint-disable-next-line comma-dangle
+  })
+);
 
 // ***** Unmount Routes *****
 app.get('/', (_, res) => res.json({ Greet: 'Hello World' }));
