@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
 //* @access ACCESS KEY
 router.post('/', async (req, res) => {
   if (req.query.accessKey === process.env.ACCESS_KEY) {
-    const data = new Maplify(req.body);
+    const data = Maplify.build(req.body);
     await data.save();
     return res.json({ data, success: true });
   }

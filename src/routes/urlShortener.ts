@@ -10,7 +10,7 @@ router.post('/', async (req, res) => {
   const { url, slug } = req.body;
   if (!url) throw new Error('Please Provide with url to create shorten url');
   const newSlug = nanoid(10);
-  const newShortenUrl = new UrlShortener({
+  const newShortenUrl = UrlShortener.build({
     original_url: url,
     slug: slug ? slug : newSlug,
   });
@@ -26,7 +26,7 @@ router.get('/:slug', async (req, res) => {
   if (!slug) throw new Error('No slug was provided');
   const url = await UrlShortener.findOne({ slug });
   if (!url) throw new Error('No URL was found with the give slug');
-  res.json(url);
+  res.redirect(url.original_url);
 });
 
 export default router;
