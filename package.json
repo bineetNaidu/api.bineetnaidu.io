@@ -39,6 +39,7 @@
     "helmet": "^4.2.0",
     "mongoose": "^5.10.14",
     "morgan": "^1.10.0",
+    "nanoid": "^3.1.18",
     "typescript": "^4.1.2"
   },
   "devDependencies": {

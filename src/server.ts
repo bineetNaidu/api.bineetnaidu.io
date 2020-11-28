@@ -11,6 +11,7 @@ import ExpressErrorHandler from './utils/errors/ExpressErrorHandler';
 
 //* Routers
 import maplifyRoutes from './routes/maplify'; // ? Maplify
+import urlShortenerRoutes from './routes/urlShortener'; // ? Url Shrotener
 
 //* Security Content allowed sites
 import {
@@ -52,6 +53,7 @@ app.use(
 // ***** Unmount Routes *****
 app.get('/', (_, res) => res.json({ Greet: 'Hello World' }));
 app.use('/api/v1/maplify', maplifyRoutes);
+app.use('/api/v1/urlshortener', urlShortenerRoutes);
 
 //! Not found page error
 app.all('*', () => {
