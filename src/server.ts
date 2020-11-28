@@ -6,11 +6,13 @@ import cors from 'cors';
 import logger from 'morgan';
 import connectDB from './config/database';
 import 'express-async-errors';
+import NotFoundError from './utils/errors/NotFoundError';
+import ExpressErrorHandler from './utils/errors/ExpressErrorHandler';
 
-//? Routers
+//* Routers
 import maplifyRoutes from './routes/maplify'; // ? Maplify
 
-// ? Security Content allowed sites
+//* Security Content allowed sites
 import {
   connectSrcUrls,
   fontSrcUrls,
@@ -50,6 +52,13 @@ app.use(
 // ***** Unmount Routes *****
 app.get('/', (_, res) => res.json({ Greet: 'Hello World' }));
 app.use('/api/v1/maplify', maplifyRoutes);
+
+//! Not found page error
+app.all('*', () => {
+  throw new NotFoundError();
+});
+// ! Error Handlers
+app.use(ExpressErrorHandler);
 
 // **** Listeners ****
 app.listen(process.env.PORT || 4242, () => {
