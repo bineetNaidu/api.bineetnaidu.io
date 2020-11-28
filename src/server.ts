@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 // ***** IMPORT *****
-import express, { NextFunction } from 'express';
+import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import logger from 'morgan';

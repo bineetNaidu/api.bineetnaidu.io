@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { NextFunction, Response, Request } from 'express';
 import CustomError from './CustomError';
 
 const ExpressErrorHandler = (
   err: Error,
-  req: Request,
+  _req: Request,
   res: Response,
   next: NextFunction
 ) => {
