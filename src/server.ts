@@ -1,13 +1,13 @@
-import dotenv from 'dotenv';
 // ***** IMPORT *****
 import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import logger from 'morgan';
 import connectDB from './config/database';
-import 'express-async-errors';
+import dotenv from 'dotenv';
 import NotFoundError from './utils/errors/NotFoundError';
 import ExpressErrorHandler from './utils/errors/ExpressErrorHandler';
+import 'express-async-errors';
 
 //* Routers
 import maplifyRoutes from './routes/maplify'; // ? Maplify
@@ -32,7 +32,6 @@ connectDB();
 // ***** Middlewares *****
 app.use(express.json());
 app.use(logger('dev'));
-app.set('view engine', 'ejs');
 app.use(cors());
 app.use(
   helmet.contentSecurityPolicy({
@@ -46,12 +45,11 @@ app.use(
       imgSrc: ["'self'", 'blob:', 'data:', 'https://images.unsplash.com/'],
       fontSrc: ["'self'", ...fontSrcUrls],
     },
-    // eslint-disable-next-line comma-dangle
   })
 );
 
 // ***** Unmount Routes *****
-app.get('/', (_, res) => res.json({ Greet: 'Hello World' }));
+app.get('/', (_, res) => res.json({ Greet: 'Hello World 🤟' }));
 app.use('/api/v1/maplify', maplifyRoutes);
 app.use('/api/v1/urlshortener', urlShortenerRoutes);
 
