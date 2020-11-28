@@ -1,26 +1,25 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
-import dotenv from 'dotenv';
-/* eslint-disable import/extensions */
-/* eslint-disable no-console */
 // ***** IMPORT *****
 import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
-import CreateError from 'http-errors';
 import logger from 'morgan';
-import path from 'path';
-import connectDB from './config/database.js';
+import connectDB from './config/database';
+import dotenv from 'dotenv';
+import NotFoundError from './utils/errors/NotFoundError';
+import ExpressErrorHandler from './utils/errors/ExpressErrorHandler';
+import 'express-async-errors';
 
-import maplifyRoutes from './routes/maplify.js'; // ? Maplify
-import urlShortenerRoutes from './routes/urlShortener.router.js'; // ? Url Shrotener
+//* Routers
+import maplifyRoutes from './routes/maplify'; // ? Maplify
+import urlShortenerRoutes from './routes/urlShortener'; // ? Url Shrotener
 
-// ? Security Content allowed sites
+//* Security Content allowed sites
 import {
   connectSrcUrls,
   fontSrcUrls,
   scriptSrcUrls,
   styleSrcUrls,
-} from './utils/contentPoliciesAllowedSites.js';
+} from './utils/contentPoliciesAllowedSites';
 
 // ***** App Config *****
 if (process.env.NODE_ENV !== 'production') {
@@ -33,8 +32,6 @@ connectDB();
 // ***** Middlewares *****
 app.use(express.json());
 app.use(logger('dev'));
-app.set('view engine', 'ejs');
-app.set(path.join('views'));
 app.use(cors());
 app.use(
   helmet.contentSecurityPolicy({
@@ -48,24 +45,20 @@ app.use(
       imgSrc: ["'self'", 'blob:', 'data:', 'https://images.unsplash.com/'],
       fontSrc: ["'self'", ...fontSrcUrls],
     },
-    // eslint-disable-next-line comma-dangle
   })
 );
 
 // ***** Unmount Routes *****
-app.get('/', (_, res) => res.json({ Greet: 'Hello World' }));
+app.get('/', (_, res) => res.json({ Greet: 'Hello World 🤟' }));
 app.use('/api/v1/maplify', maplifyRoutes);
 app.use('/api/v1/urlshortener', urlShortenerRoutes);
 
-//! catch 404 and forward to error handler
-app.all('*', (req, res, next) => next(new CreateError(404)));
-
-//! error handler
-// eslint-disable-next-line no-unused-vars
-app.use((err, req, res, next) => {
-  const { statusCode = 500 } = err;
-  res.json({ error: err.message, status: statusCode });
+//! Not found page error
+app.all('*', () => {
+  throw new NotFoundError();
 });
+// ! Error Handlers
+app.use(ExpressErrorHandler);
 
 // **** Listeners ****
 app.listen(process.env.PORT || 4242, () => {
