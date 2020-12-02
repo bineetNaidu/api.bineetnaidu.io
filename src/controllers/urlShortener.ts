@@ -13,6 +13,11 @@ export const createNewUrlSlug: (
 ) => Promise<void> = async (req: Request, res: Response) => {
   const { url, slug } = req.body;
   if (!url) throw new Error('Please Provide with url to create shorten url');
+  if (slug) {
+    const slugExists = await UrlShortener.find({ slug });
+    if (slugExists)
+      throw new Error('Duplicate Slug Provided, A Slug must be unique!');
+  }
   const newSlug = nanoid(10);
   const newShortenUrl = UrlShortener.build({
     original_url: url,
