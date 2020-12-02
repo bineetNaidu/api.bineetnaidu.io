@@ -1,13 +1,11 @@
-/* eslint-disable no-console */
 import mongoose from 'mongoose';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import dotenv from 'dotenv';
 
 if (process.env.NODE_ENV !== 'production') {
   dotenv.config();
 }
 
-const connectDB = async () => {
+const connectDB: () => Promise<void> = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URI || '', {
       useNewUrlParser: true,
