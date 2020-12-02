@@ -18,7 +18,7 @@ interface MaplifyModel extends mongoose.Model<MaplifyDoc> {
 
 //? An interface that describe the properties
 //? that a User Document has
-interface MaplifyDoc extends mongoose.Document {
+export interface MaplifyDoc extends mongoose.Document {
   lat: number;
   lng: number;
   desc: string;
