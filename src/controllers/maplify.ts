@@ -1,6 +1,5 @@
 import { Response, Request } from 'express';
 import Maplify from '../models/Maplify';
-import { MaplifyResType } from '../types';
 
 //* @desc GET - get all maplify data
 //* @access PUBLIC
@@ -17,16 +16,10 @@ export const getAllMaplifyDocs: (
 export const createMaplifyDoc: (
   req: Request,
   res: Response
-) => Promise<Response<MaplifyResType>> = async (
-  req: Request,
-  res: Response
-) => {
-  if (req.query.accessKey === process.env.ACCESS_KEY) {
-    const data = Maplify.build(req.body);
-    await data.save();
-    return res.json({ data, success: true });
-  }
-  throw new Error('Access Denied!!!');
+) => Promise<void> = async (req: Request, res: Response) => {
+  const data = Maplify.build(req.body);
+  await data.save();
+  res.json({ data, success: true });
 };
 
 //* @desc DELETE - Delete a maps data
@@ -34,13 +27,7 @@ export const createMaplifyDoc: (
 export const deleteMaplifyDoc: (
   req: Request,
   res: Response
-) => Promise<Response<MaplifyResType>> = async (
-  req: Request,
-  res: Response
-) => {
-  if (req.query.accessKey === process.env.ACCESS_KEY) {
-    await Maplify.findOneAndDelete({ _id: req.params.mapID });
-    return res.json({ success: true, msg: 'Successfully Deleted...' });
-  }
-  throw new Error('Access Denied!!!');
+) => Promise<void> = async (req: Request, res: Response) => {
+  await Maplify.findOneAndDelete({ _id: req.params.mapID });
+  res.json({ success: true, msg: 'Successfully Deleted...' });
 };

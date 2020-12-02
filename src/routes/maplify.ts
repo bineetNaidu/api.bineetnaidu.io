@@ -4,10 +4,11 @@ import {
   createMaplifyDoc,
   deleteMaplifyDoc,
 } from '../controllers/maplify';
+import isAccessable from '../middlewares/isAccessable';
 
 const router = Router();
 
-router.route('/').get(getAllMaplifyDocs).post(createMaplifyDoc);
-router.delete('/:mapID', deleteMaplifyDoc);
+router.route('/').get(getAllMaplifyDocs).post(isAccessable, createMaplifyDoc);
+router.delete('/:mapID', isAccessable, deleteMaplifyDoc);
 
 export default router;
