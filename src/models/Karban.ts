@@ -94,7 +94,12 @@ KarbanSchema.statics.buildProject = async (
   const karban = await Karban.findOne({ _id });
   if (!karban) throw new Error('Karban Not Found');
   const projectId = mongoose.Types.ObjectId().toHexString();
-  const data = { projectId, projectDescription, projectName, tabs: [] };
+  const data = {
+    projectId,
+    projectDescription: projectDescription || '',
+    projectName,
+    tabs: [],
+  };
   karban.projects.push(data);
   return karban;
 };
@@ -106,10 +111,10 @@ KarbanSchema.statics.buildProjectTab = async (
 ) => {
   const karban = await Karban.findOne({ _id });
   if (!karban) throw new Error('Karban Not Found');
-  const project = karban.projects.filter((p) => p.projectId === projectId);
+  const project = karban.projects.find((p) => p.projectId === projectId);
   if (!project) throw new Error('Karban Project Not Found');
   const tabId = mongoose.Types.ObjectId().toHexString();
-  project[0].tabs.push({ tabId, tabName, cards: [] });
+  project.tabs.push({ tabId, tabName, cards: [] });
   return karban;
 };
 //? To build a new Karban Project tab Card
@@ -121,12 +126,12 @@ KarbanSchema.statics.buildProjectTabCard = async (
 ) => {
   const karban = await Karban.findOne({ _id });
   if (!karban) throw new Error('Karban Not Found');
-  const project = karban.projects.filter((p) => p.projectId === projectId);
+  const project = karban.projects.find((p) => p.projectId === projectId);
   if (!project) throw new Error('Karban Project Not Found');
-  const tab = project[0].tabs.filter((t) => t.tabId === tabId);
+  const tab = project.tabs.find((t) => t.tabId === tabId);
   if (!tab) throw new Error('Karban Project Tab Not Found');
   const cardId = mongoose.Types.ObjectId().toHexString();
-  tab[0].cards.push({ cardBody, cardId });
+  tab.cards.push({ cardBody: cardBody || '', cardId });
   return karban;
 };
 
