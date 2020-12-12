@@ -27,3 +27,17 @@ export const getKarbanById = async (
   if (!karban) throw new Error('karban not Found with the given ID');
   res.json({ success: true, karban });
 };
+
+export const getKarbanByIdAndCreateNewProject = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const { projectName, projectDescription } = req.body;
+  const karban = await Karban.buildProject(
+    req.params.id,
+    projectName,
+    projectDescription
+  );
+  await karban.save();
+  res.status(201).json({ success: true, karban });
+};
