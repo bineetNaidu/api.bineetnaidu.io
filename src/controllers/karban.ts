@@ -55,3 +55,18 @@ export const createProjectNewTab = async (
   await karban.save();
   res.status(201).json({ success: true, karban });
 };
+
+export const createProjectTabNewCard = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const { cardBody } = req.body;
+  const karban = await Karban.buildProjectTabCard(
+    req.params.id,
+    req.params.projectId,
+    req.params.tabId,
+    cardBody
+  );
+  await karban.save();
+  res.status(201).json({ success: true, karban });
+};
