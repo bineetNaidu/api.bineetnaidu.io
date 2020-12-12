@@ -8,6 +8,7 @@ interface KarbanProjects {
 }
 interface KarbanProjectTab {
   tabId: string;
+  tabName: string;
   cards: KarbanProjectTabCard[];
 }
 
@@ -27,16 +28,17 @@ interface KarbanDocs extends mongoose.Document {
 interface KarbanModel extends mongoose.Model<KarbanDocs> {
   build(passcode: string, username: string): KarbanDocs;
   buildProject(
-    _id: mongoose.Schema.Types.ObjectId,
+    _id: string,
     projectName: string,
     projectDescription: string
   ): Promise<KarbanDocs>;
   buildProjectTab(
-    _id: mongoose.Schema.Types.ObjectId,
-    projectId: string
+    _id: string,
+    projectId: string,
+    tabName: string
   ): Promise<KarbanDocs>;
   buildProjectTabCard(
-    _id: mongoose.Schema.Types.ObjectId,
+    _id: string,
     projectId: string,
     tabId: string,
     cardBody: string
@@ -56,16 +58,20 @@ const StringAndRequiredAndUnique = {
 const KarbanSchema = new Schema({
   username: StringAndRequiredAndUnique,
   passcode: StringAndRequired,
-  project: [
+  projects: [
     {
+      _id: false,
       projectId: StringAndRequiredAndUnique,
       projectName: StringAndRequired,
       projectDescription: String,
       tabs: [
         {
+          _id: false,
           tabId: StringAndRequiredAndUnique,
+          tabName: StringAndRequired,
           cards: [
             {
+              _id: false,
               cardId: StringAndRequiredAndUnique,
               cardBody: String,
             },
@@ -81,7 +87,7 @@ KarbanSchema.statics.build = (passcode: string, username: string) => {
 };
 //? To build a new Karban Project
 KarbanSchema.statics.buildProject = async (
-  _id: mongoose.Schema.Types.ObjectId,
+  _id: string,
   projectName: string,
   projectDescription: string
 ) => {
@@ -89,23 +95,26 @@ KarbanSchema.statics.buildProject = async (
   if (!karban) throw new Error('Karban Not Found');
   const projectId = mongoose.Types.ObjectId().toHexString();
   const data = { projectId, projectDescription, projectName, tabs: [] };
-  return karban.projects.push(data);
+  karban.projects.push(data);
+  return karban;
 };
 //? To build a new Karban Project Tab
 KarbanSchema.statics.buildProjectTab = async (
-  _id: mongoose.Schema.Types.ObjectId,
-  projectId: string
+  _id: string,
+  projectId: string,
+  tabName: string
 ) => {
   const karban = await Karban.findOne({ _id });
   if (!karban) throw new Error('Karban Not Found');
   const project = karban.projects.filter((p) => p.projectId === projectId);
   if (!project) throw new Error('Karban Project Not Found');
   const tabId = mongoose.Types.ObjectId().toHexString();
-  return project[0].tabs.push({ tabId, cards: [] });
+  project[0].tabs.push({ tabId, tabName, cards: [] });
+  return karban;
 };
 //? To build a new Karban Project tab Card
 KarbanSchema.statics.buildProjectTabCard = async (
-  _id: mongoose.Schema.Types.ObjectId,
+  _id: string,
   projectId: string,
   tabId: string,
   cardBody: string
@@ -117,7 +126,8 @@ KarbanSchema.statics.buildProjectTabCard = async (
   const tab = project[0].tabs.filter((t) => t.tabId === tabId);
   if (!tab) throw new Error('Karban Project Tab Not Found');
   const cardId = mongoose.Types.ObjectId().toHexString();
-  return tab[0].cards.push({ cardBody, cardId });
+  tab[0].cards.push({ cardBody, cardId });
+  return karban;
 };
 
 const Karban = mongoose.model<KarbanDocs, KarbanModel>('Karban', KarbanSchema);
