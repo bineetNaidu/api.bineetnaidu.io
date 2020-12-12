@@ -8,3 +8,13 @@ export const getAllKarbans = async (
   const karbans = await Karban.find({});
   res.json({ success: true, karbans });
 };
+
+export const createKarban = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const { username, passcode } = req.body;
+  const karban = Karban.build(passcode, username);
+  await karban.save();
+  res.json({ success: true, karban });
+};
