@@ -70,3 +70,13 @@ export const createProjectTabNewCard = async (
   await karban.save();
   res.status(201).json({ success: true, karban });
 };
+
+export const deleteKarban = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const karban = await Karban.findOne({ _id: req.params.id });
+  if (!karban) throw new Error('karban not Found with the given ID');
+  await karban.remove();
+  res.json({ success: true });
+};
