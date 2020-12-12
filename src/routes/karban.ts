@@ -4,6 +4,7 @@ import {
   getAllKarbans,
   getKarbanById,
   getKarbanByIdAndCreateNewProject,
+  createProjectNewTab,
 } from '../controllers/karban';
 
 const r = Router();
@@ -11,5 +12,6 @@ const r = Router();
 r.route('/').get(getAllKarbans).post(createKarban);
 r.get('/:id', getKarbanById);
 r.post('/:id/project', getKarbanByIdAndCreateNewProject);
+r.post('/:id/project/:projectId', createProjectNewTab);
 
 export default r;

@@ -41,3 +41,17 @@ export const getKarbanByIdAndCreateNewProject = async (
   await karban.save();
   res.status(201).json({ success: true, karban });
 };
+
+export const createProjectNewTab = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const { tabName } = req.body;
+  const karban = await Karban.buildProjectTab(
+    req.params.id,
+    req.params.projectId,
+    tabName
+  );
+  await karban.save();
+  res.status(201).json({ success: true, karban });
+};
