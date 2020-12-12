@@ -9,6 +9,7 @@ import {
   deleteKarban,
   deleteKarbanProject,
   deleteKarbanProjectTab,
+  deleteKarbanProjectTabCard,
 } from '../controllers/karban';
 
 const r = Router();
@@ -22,5 +23,9 @@ r.route('/:id/project/:projectId')
 r.route('/:id/project/:projectId/tab/:tabId')
   .post(createProjectTabNewCard)
   .delete(deleteKarbanProjectTab);
+r.delete(
+  '/:id/project/:projectId/tab/:tabId/card/:cardId',
+  deleteKarbanProjectTabCard
+);
 
 export default r;
