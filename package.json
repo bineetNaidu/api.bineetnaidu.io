@@ -1,5 +1,5 @@
 {
-  "name": "my-server",
+  "name": "api.bineetnaidu.io",
   "version": "1.0.0",
   "private": true,
   "description": "A Node js server for my API's.",
@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bineetNaidu/my-api.git"
+    "url": "git+https://github.com/bineetNaidu/api.bineetnaidu.io.git"
   },
   "author": {
     "name": "Bineet Naidu",
@@ -23,29 +23,28 @@
   },
   "license": "GNU AGPLv3",
   "bugs": {
-    "url": "https://github.com/bineetNaidu/my-api/issues"
+    "url": "https://github.com/bineetNaidu/api.bineetnaidu.io/issues"
   },
-  "homepage": "https://github.com/bineetNaidu/my-api#readme",
+  "homepage": "https://github.com/bineetNaidu/api.bineetnaidu.io#readme",
   "dependencies": {
-    "@types/cors": "^2.8.8",
-    "@types/express": "^4.17.9",
-    "@types/mongoose": "^5.10.1",
-    "@types/morgan": "^1.9.2",
-    "@types/node": "^14.14.10",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-async-errors": "^3.1.1",
     "helmet": "^4.2.0",
-    "mongoose": "^5.10.14",
+    "mongoose": "^5.11.6",
     "morgan": "^1.10.0",
-    "nanoid": "^3.1.18",
+    "nanoid": "^3.1.20",
     "typescript": "^4.1.2"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^4.8.2",
-    "@typescript-eslint/parser": "^4.8.2",
-    "eslint": "^7.14.0",
-    "ts-node-dev": "^1.0.0"
+    "@types/cors": "^2.8.8",
+    "@types/express": "^4.17.9",
+    "@types/morgan": "^1.9.2",
+    "@types/node": "^14.14.11",
+    "@typescript-eslint/eslint-plugin": "^4.9.1",
+    "@typescript-eslint/parser": "^4.9.1",
+    "eslint": "^7.15.0",
+    "ts-node-dev": "^1.1.1"
   }
 }
