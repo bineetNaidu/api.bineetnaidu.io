@@ -10,11 +10,13 @@ import {
   deleteKarbanProject,
   deleteKarbanProjectTab,
   deleteKarbanProjectTabCard,
+  findAKarbanWithUsername,
 } from '../controllers/karban';
 
 const r = Router();
 
 r.route('/').get(getAllKarbans).post(createKarban);
+r.get('/find', findAKarbanWithUsername);
 r.route('/:id').get(getKarbanById).delete(deleteKarban);
 r.post('/:id/project', getKarbanByIdAndCreateNewProject);
 r.route('/:id/project/:projectId')
