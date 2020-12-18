@@ -9,6 +9,24 @@ export const getAllKarbans = async (
   res.json({ success: true, karbans });
 };
 
+export const findAKarbanWithUsername = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const { passcode } = req.body;
+  if (!passcode) throw new Error('Passcode must be given');
+  if (!req.query.username) {
+    throw new Error('Username must be given');
+  }
+  const karban = await Karban.findOne({
+    username: req.query.username.toString(),
+  });
+  if (!karban) throw new Error('karban not Found with the given Usernmae');
+  const isMatch = karban.passcode === passcode;
+  if (!isMatch) throw new Error('UnAuhtorized');
+  res.json({ success: true, karban });
+};
+
 export const createKarban = async (
   req: Request,
   res: Response
@@ -23,12 +41,7 @@ export const getKarbanById = async (
   req: Request,
   res: Response
 ): Promise<void> => {
-  let karban;
-  if (req.query.username) {
-    karban = await Karban.findOne({ username: req.query.username.toString() });
-  } else {
-    karban = await Karban.findOne({ _id: req.params.id });
-  }
+  const karban = await Karban.findOne({ _id: req.params.id });
   if (!karban) throw new Error('karban not Found with the given ID');
   res.json({ success: true, karban });
 };
