@@ -55,32 +55,39 @@ const StringAndRequiredAndUnique = {
   unique: true,
 };
 
-const KarbanSchema = new Schema({
-  username: StringAndRequiredAndUnique,
-  passcode: StringAndRequired,
-  projects: [
-    {
-      _id: false,
-      projectId: StringAndRequiredAndUnique,
-      projectName: StringAndRequired,
-      projectDescription: String,
-      tabs: [
-        {
-          _id: false,
-          tabId: StringAndRequiredAndUnique,
-          tabName: StringAndRequired,
-          cards: [
-            {
-              _id: false,
-              cardId: StringAndRequiredAndUnique,
-              cardBody: String,
-            },
-          ],
-        },
-      ],
+const KarbanSchema = new Schema(
+  {
+    username: StringAndRequiredAndUnique,
+    passcode: StringAndRequired,
+    projects: [
+      {
+        _id: false,
+        projectId: StringAndRequiredAndUnique,
+        projectName: StringAndRequired,
+        projectDescription: String,
+        tabs: [
+          {
+            _id: false,
+            tabId: StringAndRequiredAndUnique,
+            tabName: StringAndRequired,
+            cards: [
+              {
+                _id: false,
+                cardId: StringAndRequiredAndUnique,
+                cardBody: String,
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    toJSON: {
+      versionKey: false,
     },
-  ],
-});
+  }
+);
 //? To build a new Karban
 KarbanSchema.statics.build = (passcode: string, username: string) => {
   return new Karban({ username, passcode, projects: [] });
