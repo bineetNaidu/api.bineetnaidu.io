@@ -13,6 +13,7 @@ import 'express-async-errors';
 //* Routers
 import maplifyRoutes from './routes/maplify'; // ? Maplify
 import urlShortenerRoutes from './routes/urlShortener'; // ? Url Shrotener
+import projectsRoutes from './routes/project'; // ? Projects
 
 //* Security Content allowed sites
 import {
@@ -53,6 +54,7 @@ app.use(
 app.get('/', (_, res) => res.json({ Greet: 'Hello World 🤟' }));
 app.use('/api/v1/maplify', maplifyRoutes);
 app.use('/api/v1/urlshortener', urlShortenerRoutes);
+app.use('/api/v1/projects', projectsRoutes);
 
 //! Not found page error
 app.all('*', () => {
