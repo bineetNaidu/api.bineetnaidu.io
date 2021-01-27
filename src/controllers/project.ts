@@ -75,3 +75,18 @@ export const updateProject = async (req: Request, res: Response) => {
     updated: true,
   });
 };
+
+export const deleteProject = async (req: Request, res: Response) => {
+  const { projectId } = req.params;
+  const project = await Project.findOne({ _id: projectId });
+  if (!project) throw new Error('Project Not Found');
+
+  await project.remove(req.body);
+
+  res.json({
+    data: project,
+    success: true,
+    length: 1,
+    removed: true,
+  });
+};
