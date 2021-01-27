@@ -1,10 +1,11 @@
+/* eslint-disable comma-dangle */
 // ***** IMPORT *****
 import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import logger from 'morgan';
-import connectDB from './config/database';
 import dotenv from 'dotenv';
+import connectDB from './config/database';
 import NotFoundError from './utils/errors/NotFoundError';
 import ExpressErrorHandler from './utils/errors/ExpressErrorHandler';
 import 'express-async-errors';
