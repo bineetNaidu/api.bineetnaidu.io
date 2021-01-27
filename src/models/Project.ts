@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 // eslint-disable-next-line no-shadow
-enum Status {
+export enum Status {
   Ongoing = 'ongoing',
   Planing = 'planing',
   Completed = 'completed',
