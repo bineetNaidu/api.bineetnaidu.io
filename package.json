@@ -11,7 +11,9 @@
     "start": "NODE_ENV=production node build/server",
     "build": "tsc",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm run build",
-    "dev": "ts-node-dev src/server"
+    "dev": "ts-node-dev src/server",
+    "lint": "eslint ./src/**/*.ts",
+    "lint:fix": "eslint ./src/**/*.ts --fix"
   },
   "repository": {
     "type": "git",
@@ -19,7 +21,7 @@
   },
   "author": {
     "name": "Bineet Naidu",
-    "url": "https://bineetnaidu.web.app"
+    "url": "https://bineetnaidu-io.web.app"
   },
   "license": "GNU AGPLv3",
   "bugs": {
@@ -42,9 +44,11 @@
     "@types/express": "^4.17.9",
     "@types/morgan": "^1.9.2",
     "@types/node": "^14.14.11",
-    "@typescript-eslint/eslint-plugin": "^4.9.1",
-    "@typescript-eslint/parser": "^4.9.1",
-    "eslint": "^7.15.0",
+    "@typescript-eslint/eslint-plugin": "^4.14.1",
+    "@typescript-eslint/parser": "^4.14.1",
+    "eslint": "^7.18.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1",
     "ts-node-dev": "^1.1.1"
   }
 }

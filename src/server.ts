@@ -1,10 +1,11 @@
+/* eslint-disable comma-dangle */
 // ***** IMPORT *****
 import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import logger from 'morgan';
-import connectDB from './config/database';
 import dotenv from 'dotenv';
+import connectDB from './config/database';
 import NotFoundError from './utils/errors/NotFoundError';
 import ExpressErrorHandler from './utils/errors/ExpressErrorHandler';
 import 'express-async-errors';
@@ -12,6 +13,7 @@ import 'express-async-errors';
 //* Routers
 import maplifyRoutes from './routes/maplify'; // ? Maplify
 import urlShortenerRoutes from './routes/urlShortener'; // ? Url Shrotener
+import projectsRoutes from './routes/project'; // ? Projects
 
 //* Security Content allowed sites
 import {
@@ -52,6 +54,7 @@ app.use(
 app.get('/', (_, res) => res.json({ Greet: 'Hello World 🤟' }));
 app.use('/api/v1/maplify', maplifyRoutes);
 app.use('/api/v1/urlshortener', urlShortenerRoutes);
+app.use('/api/v1/projects', projectsRoutes);
 
 //! Not found page error
 app.all('*', () => {

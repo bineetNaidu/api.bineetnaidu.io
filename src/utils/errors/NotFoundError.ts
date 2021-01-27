@@ -9,6 +9,8 @@ export default class NotFoundError extends CustomError {
 
     Object.setPrototypeOf(this, NotFoundError.prototype);
   }
+
+  // eslint-disable-next-line class-methods-use-this
   serializeErrors() {
     return [{ message: 'Page Not Found!' }];
   }
