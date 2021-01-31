@@ -49,7 +49,7 @@ export const createProject = async (req: Request, res: Response) => {
     github: github || undefined,
     completed: completed || false,
     featured: featured || false,
-    status: status || Status.Planing,
+    status: status || Status.Planning,
   });
   await project.save();
   res.json({
@@ -81,7 +81,7 @@ export const deleteProject = async (req: Request, res: Response) => {
   const project = await Project.findOne({ _id: projectId });
   if (!project) throw new Error('Project Not Found');
 
-  await project.remove(req.body);
+  await project.remove();
 
   res.json({
     data: project,

@@ -6,7 +6,7 @@ const { Schema } = mongoose;
 // eslint-disable-next-line no-shadow
 export enum Status {
   Ongoing = 'ongoing',
-  Planing = 'planing',
+  Planning = 'planning',
   Completed = 'completed',
 }
 
@@ -45,7 +45,7 @@ const ProjectSchema = new Schema(
     status: {
       type: String,
       enum: Object.values(Status),
-      default: Status.Planing,
+      default: Status.Planning,
     },
   },
   // eslint-disable-next-line comma-dangle
