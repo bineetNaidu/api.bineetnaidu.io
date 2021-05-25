@@ -7,22 +7,25 @@ export const getUrlPage = (req: Request, res: Response) => {
 };
 
 export const createNewUrlSlug = async (req: Request, res: Response) => {
-  const { url, slug } = req.body;
+  const { url } = req.body;
   if (!url) throw new Error('Please Provide with url to create shorten url');
-  if (slug) {
-    const slugExists = await UrlShortener.find({ slug });
-    if (slugExists) {
-      throw new Error('Duplicate Slug Provided, A Slug must be unique!');
-    }
+
+  let urlStnr;
+
+  urlStnr = await UrlShortener.findOne({ original_url: url });
+
+  if (!urlStnr) {
+    const newSlug = nanoid(10);
+    console.log("Doesn't Exist!");
+    urlStnr = UrlShortener.build({
+      original_url: url,
+      slug: newSlug,
+    });
+    await urlStnr.save();
   }
-  const newSlug = nanoid(10);
-  const newShortenUrl = UrlShortener.build({
-    original_url: url,
-    slug: slug || newSlug,
-  });
-  await newShortenUrl.save();
+
   res.status(200).json({
-    url: newShortenUrl,
+    url: urlStnr,
     success: true,
   });
 };
