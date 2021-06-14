@@ -14,7 +14,6 @@ interface ProjectAttrs {
   name: string;
   url?: string;
   github?: string;
-  completed: boolean;
   featured: boolean;
   description: string;
   status: Status;
@@ -24,7 +23,6 @@ interface ProjectDoc extends mongoose.Document {
   name: string;
   url?: string;
   github?: string;
-  completed: boolean;
   featured: boolean;
   description: string;
   status: Status;
@@ -39,7 +37,6 @@ const ProjectSchema = new Schema(
     name: { type: String, unique: true, required: true },
     url: { type: String, default: undefined },
     github: { type: String, default: undefined },
-    completed: { type: Boolean, default: false, required: true },
     featured: { type: Boolean, default: false },
     description: { type: String, unique: true, required: true },
     status: {

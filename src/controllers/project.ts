@@ -32,22 +32,14 @@ export const getProjectByID = async (req: Request, res: Response) => {
 };
 
 export const createProject = async (req: Request, res: Response) => {
-  const {
-    name,
-    url,
-    github,
-    completed,
-    featured,
-    description,
-    status,
-  } = req.body;
+  // eslint-disable-next-line object-curly-newline
+  const { name, url, github, featured, description, status } = req.body;
 
   const project = Project.build({
     name,
     description,
     url: url || undefined,
     github: github || undefined,
-    completed: completed || false,
     featured: featured || false,
     status: status || Status.Planning,
   });
