@@ -4,12 +4,13 @@
 import { NextFunction, Response, Request } from 'express';
 import CustomError from './CustomError';
 
+// @ts-ignore
 function ExpressErrorHandler(
   err: Error,
   _req: Request,
   res: Response,
   // eslint-disable-next-line comma-dangle
-  next: NextFunction
+  _next: NextFunction
 ) {
   if (err instanceof CustomError) {
     return res.status(err.statusCode).json({ errors: err.serializeErrors() });
