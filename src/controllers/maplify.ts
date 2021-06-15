@@ -3,7 +3,7 @@ import Maplify from '../models/Maplify';
 
 //* @desc GET - get all maplify data
 //* @access PUBLIC
-export const getAllMaplifyDocs = async (req: Request, res: Response) => {
+export const getAllMaplifyDocs = async (_req: Request, res: Response) => {
   const data = await Maplify.find();
   res.json({ data, success: true, length: data.length });
 };

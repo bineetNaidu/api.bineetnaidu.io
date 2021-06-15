@@ -2,7 +2,7 @@ import { Response, Request } from 'express';
 import { nanoid } from 'nanoid';
 import UrlShortener from '../models/UrlShortener';
 
-export const getUrlPage = (req: Request, res: Response) => {
+export const getUrlPage = (_req: Request, res: Response) => {
   res.json({ welcome_to: 'URL SHORTENER' });
 };
 
