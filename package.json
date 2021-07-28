@@ -5,7 +5,7 @@
   "description": "A Node js server for my API's.",
   "main": "server.ts",
   "engines": {
-    "node": "14.x"
+    "node": "16.x"
   },
   "scripts": {
     "start": "NODE_ENV=production node build/server",
