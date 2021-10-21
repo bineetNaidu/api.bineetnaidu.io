@@ -6,6 +6,13 @@ import { PROJECT_MODEL_NAME } from 'src/shared/constants';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
 import { ProjectDocument } from './model/projects.model';
+import {
+  CreateProjectResponseDto,
+  FindAllProjectsResponseDto,
+  FindOneProjectResponseDto,
+  UpdateProjectResponseDto,
+  RemoveProjectResponseDto,
+} from './dto/projects-response.dto';
 
 @Injectable()
 export class ProjectsService {
@@ -14,7 +21,9 @@ export class ProjectsService {
     private readonly projectModel: Model<ProjectDocument>,
   ) {}
 
-  async create(createProjectDto: CreateProjectDto) {
+  async create(
+    createProjectDto: CreateProjectDto,
+  ): Promise<CreateProjectResponseDto> {
     const createdProject = new this.projectModel(createProjectDto);
     await createdProject.save();
     return {
@@ -24,7 +33,7 @@ export class ProjectsService {
     };
   }
 
-  async findAll(featured: boolean) {
+  async findAll(featured: boolean): Promise<FindAllProjectsResponseDto> {
     let projects;
 
     if (featured) {
@@ -42,7 +51,7 @@ export class ProjectsService {
     };
   }
 
-  async findOne(id: string) {
+  async findOne(id: string): Promise<FindOneProjectResponseDto> {
     const project = await this.projectModel.findById(id);
     if (!project) throw new NotFoundError('Project Not Found');
 
@@ -52,7 +61,10 @@ export class ProjectsService {
     };
   }
 
-  async update(id: string, updateProjectDto: UpdateProjectDto) {
+  async update(
+    id: string,
+    updateProjectDto: UpdateProjectDto,
+  ): Promise<UpdateProjectResponseDto> {
     const project = await this.projectModel.findById(id);
     if (!project) throw new NotFoundError('Project Not Found');
 
@@ -66,7 +78,7 @@ export class ProjectsService {
     };
   }
 
-  async remove(id: string) {
+  async remove(id: string): Promise<RemoveProjectResponseDto> {
     const project = await this.projectModel.findById(id);
     if (!project) throw new NotFoundError('Project Not Found');
     await project.remove();

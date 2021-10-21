@@ -11,33 +11,47 @@ import {
 import { ProjectsService } from './projects.service';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
+import {
+  CreateProjectResponseDto,
+  FindAllProjectsResponseDto,
+  FindOneProjectResponseDto,
+  UpdateProjectResponseDto,
+  RemoveProjectResponseDto,
+} from './dto/projects-response.dto';
 
 @Controller('v1/projects')
 export class ProjectsController {
   constructor(private readonly projectsService: ProjectsService) {}
 
   @Post()
-  create(@Body() createProjectDto: CreateProjectDto) {
+  async create(
+    @Body() createProjectDto: CreateProjectDto,
+  ): Promise<CreateProjectResponseDto> {
     return this.projectsService.create(createProjectDto);
   }
 
   @Get()
-  findAll(@Query('featured') featured: boolean) {
+  async findAll(
+    @Query('featured') featured: boolean,
+  ): Promise<FindAllProjectsResponseDto> {
     return this.projectsService.findAll(featured);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string): Promise<FindOneProjectResponseDto> {
     return this.projectsService.findOne(id);
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateProjectDto: UpdateProjectDto) {
+  async update(
+    @Param('id') id: string,
+    @Body() updateProjectDto: UpdateProjectDto,
+  ): Promise<UpdateProjectResponseDto> {
     return this.projectsService.update(id, updateProjectDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string): Promise<RemoveProjectResponseDto> {
     return this.projectsService.remove(id);
   }
 }
