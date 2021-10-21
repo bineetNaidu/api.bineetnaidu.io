@@ -2,6 +2,12 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { LINKS_MODEL_NAME } from 'src/shared/constants';
+import {
+  CreateLinkResponseDto,
+  DeleteLinkResponseDto,
+  FindAllLinksResponseDto,
+  UpdateLinkResponseDto,
+} from './dto/link-response.dto';
 import { CreateLinkDto } from './dto/create-link.dto';
 import { UpdateLinkDto } from './dto/update-link.dto';
 import { LinkDocument } from './model/links.model';
@@ -12,7 +18,7 @@ export class LinksService {
     @InjectModel(LINKS_MODEL_NAME) private linkModel: Model<LinkDocument>,
   ) {}
 
-  async create(createLinkDto: CreateLinkDto) {
+  async create(createLinkDto: CreateLinkDto): Promise<CreateLinkResponseDto> {
     const link = new this.linkModel(createLinkDto);
     await link.save();
 
@@ -22,7 +28,7 @@ export class LinksService {
     };
   }
 
-  async findAll() {
+  async findAll(): Promise<FindAllLinksResponseDto> {
     const links = await this.linkModel.find({});
 
     return {
@@ -32,7 +38,10 @@ export class LinksService {
     };
   }
 
-  async update(id: string, data: UpdateLinkDto) {
+  async update(
+    id: string,
+    data: UpdateLinkDto,
+  ): Promise<UpdateLinkResponseDto> {
     const link = await this.linkModel.findById(id);
 
     if (!link) {
@@ -48,7 +57,7 @@ export class LinksService {
     };
   }
 
-  async remove(id: string) {
+  async remove(id: string): Promise<DeleteLinkResponseDto> {
     const link = await this.linkModel.findById(id);
 
     if (!link) {
