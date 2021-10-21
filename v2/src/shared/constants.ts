@@ -6,6 +6,7 @@ export const ACCESS_KEY = process.env.ACCESS_KEY;
 
 export const LINKS_MODEL_NAME = 'Link';
 export const MAPLIFY_MODEL_NAME = 'Maplify';
+export const PROJECT_MODEL_NAME = 'Project';
 
 export const SCRIPTS_SRC_URLS = [
   'https://stackpath.bootstrapcdn.com/',
