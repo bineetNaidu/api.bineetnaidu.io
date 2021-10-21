@@ -1,9 +1,15 @@
-import { Module } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
 import { LinksService } from './links.service';
 import { LinksController } from './links.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { LinkSchema } from './model/links.model';
 import { LINKS_MODEL_NAME } from 'src/shared/constants';
+import { IsAccessableMiddleware } from 'src/shared/middlewares/is-accessable.middleware';
 
 @Module({
   imports: [
@@ -12,4 +18,19 @@ import { LINKS_MODEL_NAME } from 'src/shared/constants';
   controllers: [LinksController],
   providers: [LinksService],
 })
-export class LinksModule {}
+export class LinksModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(IsAccessableMiddleware).forRoutes({
+      path: 'links',
+      method: RequestMethod.POST,
+    });
+    consumer.apply(IsAccessableMiddleware).forRoutes({
+      path: 'links/:id',
+      method: RequestMethod.PUT,
+    });
+    consumer.apply(IsAccessableMiddleware).forRoutes({
+      path: 'links/:id',
+      method: RequestMethod.DELETE,
+    });
+  }
+}
