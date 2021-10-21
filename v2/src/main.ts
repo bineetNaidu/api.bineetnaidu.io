@@ -1,4 +1,5 @@
 import * as helmet from 'helmet';
+import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 import {
@@ -29,6 +30,14 @@ async function bootstrap() {
     }),
   );
   app.setGlobalPrefix('api');
+  app.useGlobalPipes(
+    new ValidationPipe({
+      validationError: {
+        target: true,
+        value: true,
+      },
+    }),
+  );
 
   await app.listen(PORT);
 }
