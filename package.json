@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/bineetNaidu/api.bineetnaidu.io#readme",
   "scripts": {
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm run build",
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
