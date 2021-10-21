@@ -1,26 +1,40 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { MAPLIFY_MODEL_NAME } from 'src/shared/constants';
 import { CreateMaplifyDto } from './dto/create-maplify.dto';
-import { UpdateMaplifyDto } from './dto/update-maplify.dto';
+import { MaplifyDocument } from './model/maplify.model';
 
 @Injectable()
 export class MaplifyService {
-  create(createMaplifyDto: CreateMaplifyDto) {
-    return 'This action adds a new maplify';
+  constructor(
+    @InjectModel(MAPLIFY_MODEL_NAME)
+    private readonly maplifyModel: Model<MaplifyDocument>,
+  ) {}
+
+  async create(createMaplifyDto: CreateMaplifyDto) {
+    const createdMaplify = new this.maplifyModel(createMaplifyDto);
+    await createdMaplify.save();
+    return {
+      data: createdMaplify,
+      success: true,
+    };
   }
 
-  findAll() {
-    return `This action returns all maplify`;
+  async findAll() {
+    const data = await this.maplifyModel.find();
+    return {
+      data,
+      success: true,
+      length: data.length,
+    };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} maplify`;
-  }
-
-  update(id: number, updateMaplifyDto: UpdateMaplifyDto) {
-    return `This action updates a #${id} maplify`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} maplify`;
+  async remove(id: string) {
+    await this.maplifyModel.findByIdAndDelete(id);
+    return {
+      success: true,
+      message: 'Maplify deleted successfully',
+    };
   }
 }
