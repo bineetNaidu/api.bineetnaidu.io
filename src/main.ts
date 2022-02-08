@@ -13,8 +13,8 @@ import {
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors({
-    origin: 'http://localhost:8080',
-    credentials: true,
+    origin: '*',
+    credentials: false,
   });
   app.use(
     helmet({
