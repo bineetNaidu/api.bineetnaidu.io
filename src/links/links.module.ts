@@ -10,13 +10,14 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { LinkSchema } from './model/links.model';
 import { LINKS_MODEL_NAME } from 'src/shared/constants';
 import { IsAccessableMiddleware } from 'src/shared/middlewares/is-accessable.middleware';
+import { LinksResolver } from './links.resolver';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: LINKS_MODEL_NAME, schema: LinkSchema }]),
   ],
   controllers: [LinksController],
-  providers: [LinksService],
+  providers: [LinksService, LinksResolver],
 })
 export class LinksModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
