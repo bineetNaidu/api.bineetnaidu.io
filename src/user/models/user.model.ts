@@ -24,9 +24,10 @@ registerEnumType(UserRole, {
 });
 
 @ObjectType({
+  description: 'User model',
   implements: [BaseDocument],
 })
-@Schema({ timestamps: true })
+@Schema({ versionKey: false, timestamps: true })
 export class User extends BaseDocument {
   @Field({ description: 'The email of the user and its unique' })
   @Prop({ required: true, unique: true })
