@@ -3,10 +3,12 @@ import 'dotenv/config';
 export const PORT = process.env.PORT || 3000;
 export const MONGO_URI = process.env.MONGO_URI;
 export const ACCESS_KEY = process.env.ACCESS_KEY;
+export const JWT_SECRET = process.env.JWT_SECRET || 'secret';
 
 export const LINKS_MODEL_NAME = 'Link';
 export const MAPLIFY_MODEL_NAME = 'Maplify';
 export const PROJECT_MODEL_NAME = 'Project';
+export const USER_MODEL_NAME = 'User';
 
 export const SCRIPTS_SRC_URLS = [
   'https://stackpath.bootstrapcdn.com/',
