@@ -19,21 +19,21 @@ export class LinksResolver {
     @Args('data') createLinkInput: CreateLinkDto,
   ): Promise<Link> {
     const createdLink = await this.linkService.create(createLinkInput);
-    return createdLink.data;
+    return createdLink;
   }
 
-  @Mutation(() => Link)
+  @Mutation(() => Link, { nullable: true })
   async updateLink(
     @Args('id') id: string,
     @Args('data') updateLinkInput: UpdateLinkDto,
   ): Promise<Link> {
     const updatedLink = await this.linkService.update(id, updateLinkInput);
-    return updatedLink.data;
+    return updatedLink;
   }
 
   @Mutation(() => Boolean)
   async deleteLink(@Args('id') id: string): Promise<boolean> {
     const deletedLink = await this.linkService.remove(id);
-    return !!deletedLink.deleted_link_id;
+    return deletedLink;
   }
 }

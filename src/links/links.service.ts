@@ -1,16 +1,11 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { LINKS_MODEL_NAME } from 'src/shared/constants';
-import {
-  CreateLinkResponseDto,
-  DeleteLinkResponseDto,
-  FindAllLinksResponseDto,
-  UpdateLinkResponseDto,
-} from './dto/link-response.dto';
+import { FindAllLinksResponseDto } from './dto/link-response.dto';
 import { CreateLinkDto } from './dto/create-link.dto';
 import { UpdateLinkDto } from './dto/update-link.dto';
-import { LinkDocument } from './model/links.model';
+import { LinkDocument, Link } from './model/links.model';
 
 @Injectable()
 export class LinksService {
@@ -18,14 +13,10 @@ export class LinksService {
     @InjectModel(LINKS_MODEL_NAME) private linkModel: Model<LinkDocument>,
   ) {}
 
-  async create(createLinkDto: CreateLinkDto): Promise<CreateLinkResponseDto> {
+  async create(createLinkDto: CreateLinkDto): Promise<Link> {
     const link = new this.linkModel(createLinkDto);
     await link.save();
-
-    return {
-      data: link,
-      created: true,
-    };
+    return link;
   }
 
   async findAll(): Promise<FindAllLinksResponseDto> {
@@ -38,37 +29,28 @@ export class LinksService {
     };
   }
 
-  async update(
-    id: string,
-    data: UpdateLinkDto,
-  ): Promise<UpdateLinkResponseDto> {
+  async update(id: string, data: UpdateLinkDto): Promise<Link | null> {
     const link = await this.linkModel.findById(id);
 
     if (!link) {
-      throw new NotFoundException('Link does not exist!');
+      return null;
     }
 
     link.set(data);
 
     const updatedLink = await link.save();
-    return {
-      data: updatedLink,
-      updated: true,
-    };
+    return updatedLink;
   }
 
-  async remove(id: string): Promise<DeleteLinkResponseDto> {
+  async remove(id: string): Promise<boolean> {
     const link = await this.linkModel.findById(id);
 
     if (!link) {
-      throw new NotFoundException('Link does not exist!');
+      return false;
     }
 
     await link.remove();
 
-    return {
-      deleted: true,
-      deleted_link_id: link.id,
-    };
+    return true;
   }
 }
