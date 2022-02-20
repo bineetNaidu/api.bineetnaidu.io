@@ -13,7 +13,7 @@ export class AuthGuard implements CanActivate {
     private readonly jwtService: JwtService,
   ) {}
 
-  canActivate(context: ExecutionContext): boolean {
+  async canActivate(context: ExecutionContext): Promise<boolean> {
     const ctx = GqlExecutionContext.create(context);
     const { req } = ctx.getContext();
     const token = req.headers['x-access-token'];
@@ -22,7 +22,9 @@ export class AuthGuard implements CanActivate {
       if (!token) throw new Error('No token was provided');
       const jwtPayload = this.jwtService.verify(token);
       if (jwtPayload) {
-        const authUser = this.userModel.findOne({ _id: jwtPayload.userId });
+        const authUser = await this.userModel.findOne({
+          _id: jwtPayload.userId,
+        });
         req.user = authUser;
         return true;
       }
