@@ -1,18 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { NotFoundError } from 'rxjs';
 import { PROJECT_MODEL_NAME } from 'src/shared/constants';
-import { CreateProjectDto } from './dto/create-project.dto';
-import { UpdateProjectDto } from './dto/update-project.dto';
-import { ProjectDocument } from './model/projects.model';
-import {
-  CreateProjectResponseDto,
-  FindAllProjectsResponseDto,
-  FindOneProjectResponseDto,
-  UpdateProjectResponseDto,
-  RemoveProjectResponseDto,
-} from './dto/projects-response.dto';
+import { MyCtx } from 'src/shared/types';
+import { CreateProjectInput } from './dto/createProject.input';
+import { Project, ProjectDocument } from './model/projects.model';
+import { validate } from 'class-validator';
+import { UpdateProjectInput } from './dto/updateProject.input';
 
 @Injectable()
 export class ProjectsService {
@@ -21,71 +15,81 @@ export class ProjectsService {
     private readonly projectModel: Model<ProjectDocument>,
   ) {}
 
-  async create(
-    createProjectDto: CreateProjectDto,
-  ): Promise<CreateProjectResponseDto> {
-    const createdProject = new this.projectModel(createProjectDto);
-    await createdProject.save();
-    return {
-      created: true,
-      success: true,
-      data: createdProject,
-    };
+  async findAll(): Promise<Project[]> {
+    return await this.projectModel
+      .find()
+      .populate('user')
+      .populate('coverImage')
+      .exec();
   }
 
-  async findAll(featured: boolean): Promise<FindAllProjectsResponseDto> {
-    let projects;
+  async findOne(_id: string): Promise<Project | null> {
+    return await this.projectModel
+      .findById(_id)
+      .populate('user')
+      .populate('coverImage')
+      .exec();
+  }
 
-    if (featured) {
-      projects = await this.projectModel.find({
-        featured: true,
-      });
-    } else {
-      projects = await this.projectModel.find({});
+  async create(data: CreateProjectInput, { req }: MyCtx): Promise<Project> {
+    if (!req.user) {
+      throw new Error('You must be logged in to create a project');
     }
 
-    return {
-      data: projects,
-      success: true,
-      length: projects.length,
-    };
-  }
+    const error = await validate(data);
+    console.log(error);
 
-  async findOne(id: string): Promise<FindOneProjectResponseDto> {
-    const project = await this.projectModel.findById(id);
-    if (!project) throw new NotFoundError('Project Not Found');
+    const project = await this.projectModel.create({
+      ...data,
+      user: req.user._id,
+    });
 
-    return {
-      data: project,
-      success: true,
-    };
+    return project;
   }
 
   async update(
-    id: string,
-    updateProjectDto: UpdateProjectDto,
-  ): Promise<UpdateProjectResponseDto> {
-    const project = await this.projectModel.findById(id);
-    if (!project) throw new NotFoundError('Project Not Found');
+    _id: string,
+    data: UpdateProjectInput,
+    { req }: MyCtx,
+  ): Promise<Project | null> {
+    if (!req.user) {
+      throw new Error('You must be logged in to update a project');
+    }
 
-    project.set(updateProjectDto);
-    await project.save();
+    const project = await this.projectModel.findById(_id).exec();
 
-    return {
-      data: project,
-      success: true,
-      updated: true,
-    };
+    if (!project) {
+      throw new Error('Project not found');
+    }
+
+    if (project.user.toString() !== req.user._id.toString()) {
+      throw new Error('You are not allowed to update this project');
+    }
+
+    const updatedProject = await this.projectModel
+      .findByIdAndUpdate(_id, data, { new: true })
+      .exec();
+
+    return updatedProject;
   }
 
-  async remove(id: string): Promise<RemoveProjectResponseDto> {
-    const project = await this.projectModel.findById(id);
-    if (!project) throw new NotFoundError('Project Not Found');
-    await project.remove();
-    return {
-      data: project,
-      success: true,
-      removed: true,
-    };
+  async delete(_id: string, { req }: MyCtx): Promise<boolean> {
+    if (!req.user) {
+      throw new Error('You must be logged in to delete a project');
+    }
+
+    const project = await this.projectModel.findById(_id).exec();
+
+    if (!project) {
+      throw new Error('Project not found');
+    }
+
+    if (project.user.toString() !== req.user._id.toString()) {
+      throw new Error('You are not allowed to delete this project');
+    }
+
+    await this.projectModel.findByIdAndDelete(_id).exec();
+
+    return true;
   }
 }
