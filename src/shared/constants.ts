@@ -14,6 +14,7 @@ export const MAPLIFY_MODEL_NAME = 'Maplify';
 export const PROJECT_MODEL_NAME = 'Project';
 export const USER_MODEL_NAME = 'User';
 export const CLOUDINARY = 'Cloudinary';
+export const IMAGE_MODEL_NAME = 'Image';
 
 export const SCRIPTS_SRC_URLS = [
   'https://stackpath.bootstrapcdn.com/',

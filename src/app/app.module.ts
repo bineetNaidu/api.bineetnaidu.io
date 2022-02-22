@@ -6,6 +6,7 @@ import { ProjectsModule } from 'src/projects/projects.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { UserModule } from '../user/user.module';
+import { ImagesModule } from 'src/images/images.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { UserModule } from '../user/user.module';
     MaplifyModule,
     ProjectsModule,
     UserModule,
+    ImagesModule,
   ],
 })
 export class AppModule {}
