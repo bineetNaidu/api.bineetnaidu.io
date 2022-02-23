@@ -4,6 +4,11 @@ import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 import { IMAGE_MODEL_NAME } from 'src/shared/constants';
 import { ImageDocument } from './models/image.model';
 import { Model } from 'mongoose';
+import {
+  CreateImageResponseDto,
+  DeleteImageResponseDto,
+  ImagesResponseDto,
+} from './dto/image.response-dto';
 
 @Injectable()
 export class ImagesService {
@@ -12,17 +17,24 @@ export class ImagesService {
     private readonly cloudinaryService: CloudinaryService,
   ) {}
 
-  async upload({ filename, path, originalname }: Express.Multer.File) {
+  async upload({
+    filename,
+    path,
+    originalname,
+  }: Express.Multer.File): Promise<CreateImageResponseDto> {
     const image = await this.imageModel.create({
       filename,
       url: path,
       name: originalname,
     });
     await image.save();
-    return { image };
+    return {
+      data: image,
+      created: image.isNew,
+    };
   }
 
-  async getAll() {
+  async getAll(): Promise<ImagesResponseDto> {
     const images = await this.imageModel.find({});
     return {
       data: images,
@@ -31,7 +43,7 @@ export class ImagesService {
     };
   }
 
-  async delete(filename: string) {
+  async delete(filename: string): Promise<DeleteImageResponseDto> {
     const image = await this.imageModel.findOne({ filename });
     if (!image) {
       throw new BadRequestException({
@@ -42,7 +54,7 @@ export class ImagesService {
     await this.cloudinaryService.removeImage(image);
     await image.remove();
     return {
-      image: {
+      data: {
         deleted: true,
         deletedImageId: image._id,
       },
