@@ -10,6 +10,8 @@ import { AuthGuard } from 'src/shared/guards/auth.guard';
 import { MyCtx, UserPrivilege } from 'src/shared/types';
 import { RequirePrevilages } from 'src/privilege/privilege.decorator';
 import { HasPermissionGuard } from 'src/privilege/has-permission.guard';
+import { AddUserPrivilegeInput } from './dto/addUserPrivilege.input';
+import { RemoveUserPrivilegeInput } from './dto/removeUserPrivilege.input';
 
 @Resolver(User)
 export class UserResolver {
@@ -37,7 +39,7 @@ export class UserResolver {
   @UseGuards(HasPermissionGuard)
   async addUserPrivilegesToUser(
     @Args('_id') _id: string,
-    @Args('privileges') privileges: UserPrivilege[],
+    @Args('data') { privileges }: AddUserPrivilegeInput,
   ): Promise<User | null> {
     return this.userService.addUserPrivilegesToUser(_id, privileges);
   }
@@ -51,9 +53,9 @@ export class UserResolver {
   @UseGuards(HasPermissionGuard)
   async removeUserPrivilegesFromUser(
     @Args('_id') _id: string,
-    @Args('removePrivilege') removePrivilege: UserPrivilege,
+    @Args('data') { privilege }: RemoveUserPrivilegeInput,
   ): Promise<User | null> {
-    return this.userService.removeUserPrivilegesFromUser(_id, removePrivilege);
+    return this.userService.removeUserPrivilegesFromUser(_id, privilege);
   }
 
   @Mutation(() => AuthResponseDto, { description: 'Register a new user' })
