@@ -1,5 +1,10 @@
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
-import { GqlExecutionContext } from '@nestjs/graphql';
+import {
+  CanActivate,
+  ExecutionContext,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { GqlContextType, GqlExecutionContext } from '@nestjs/graphql';
 import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/mongoose';
 import { UserDocument } from 'src/user/models/user.model';
@@ -14,22 +19,41 @@ export class AuthGuard implements CanActivate {
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const ctx = GqlExecutionContext.create(context);
-    const { req } = ctx.getContext();
-    const token = req.headers['x-access-token'];
+    if (context.getType() === 'http') {
+      const req = context.switchToHttp().getRequest();
+      const token = req.headers['X-Access-Token'];
 
-    try {
-      if (!token) throw new Error('No token was provided');
-      const jwtPayload = this.jwtService.verify(token);
-      if (jwtPayload) {
-        const authUser = await this.userModel.findOne({
-          _id: jwtPayload.userId,
-        });
-        req.user = authUser;
-        return true;
+      try {
+        if (!token) throw new UnauthorizedException('No token was provided');
+        const jwtPayload = this.jwtService.verify(token);
+        if (jwtPayload) {
+          const authUser = await this.userModel.findOne({
+            _id: jwtPayload.userId,
+          });
+          req.user = authUser;
+          return true;
+        }
+      } catch (err) {
+        throw new UnauthorizedException(err.message);
       }
-    } catch (err) {
-      throw new Error(err.message);
+    } else if (context.getType<GqlContextType>() === 'graphql') {
+      const ctx = GqlExecutionContext.create(context);
+      const { req } = ctx.getContext();
+      const token = req.headers['X-Access-Token'];
+
+      try {
+        if (!token) throw new UnauthorizedException('No token was provided');
+        const jwtPayload = this.jwtService.verify(token);
+        if (jwtPayload) {
+          const authUser = await this.userModel.findOne({
+            _id: jwtPayload.userId,
+          });
+          req.user = authUser;
+          return true;
+        }
+      } catch (err) {
+        throw new UnauthorizedException(err.message);
+      }
     }
   }
 }
