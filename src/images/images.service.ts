@@ -9,6 +9,7 @@ import {
   DeleteImageResponseDto,
   ImagesResponseDto,
 } from './dto/image.response-dto';
+import { ApiRequestType } from 'src/shared/types';
 
 @Injectable()
 export class ImagesService {
@@ -17,15 +18,15 @@ export class ImagesService {
     private readonly cloudinaryService: CloudinaryService,
   ) {}
 
-  async upload({
-    filename,
-    path,
-    originalname,
-  }: Express.Multer.File): Promise<CreateImageResponseDto> {
+  async upload(
+    { filename, path, originalname }: Express.Multer.File,
+    req: ApiRequestType,
+  ): Promise<CreateImageResponseDto> {
     const image = await this.imageModel.create({
       filename,
       url: path,
       name: originalname,
+      uploadedBy: req.user._id,
     });
     await image.save();
     return {

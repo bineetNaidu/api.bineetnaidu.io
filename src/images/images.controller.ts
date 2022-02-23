@@ -7,6 +7,7 @@ import {
   Delete,
   Param,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { AuthGuard } from 'src/shared/guards/auth.guard';
@@ -16,6 +17,7 @@ import {
   DeleteImageResponseDto,
   ImagesResponseDto,
 } from './dto/image.response-dto';
+import type { ApiRequestType } from 'src/shared/types';
 
 @Controller('images')
 export class ImagesController {
@@ -31,10 +33,11 @@ export class ImagesController {
   @Post('/upload')
   @UseInterceptors(FileInterceptor('image'))
   async upload(
+    @Req() req: ApiRequestType,
     @UploadedFile() image: Express.Multer.File,
   ): Promise<CreateImageResponseDto> {
     console.log(image);
-    return await this.imagesService.upload(image);
+    return await this.imagesService.upload(image, req);
   }
 
   @UseGuards(AuthGuard)

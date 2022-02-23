@@ -24,13 +24,13 @@ export class Image extends BaseDocument {
   @Field({ description: 'The image url' })
   @Prop({ required: true })
   url!: string;
-  // @Field(() => User, { description: 'The User who added the image' })
-  // @Prop({
-  //   required: true,
-  //   type: Types.ObjectId,
-  //   ref: USER_MODEL_NAME,
-  // })
-  // user!: User;
+  @Field(() => User, { description: 'The User who added the image' })
+  @Prop({
+    required: true,
+    type: Types.ObjectId,
+    ref: USER_MODEL_NAME,
+  })
+  uploadedBy!: User;
 }
 
 export const ImageSchema = SchemaFactory.createForClass(Image);
