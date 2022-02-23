@@ -17,20 +17,26 @@ import {
   DeleteImageResponseDto,
   ImagesResponseDto,
 } from './dto/image.response-dto';
-import type { ApiRequestType } from 'src/shared/types';
+import { ApiRequestType, UserPrivilege } from 'src/shared/types';
+import { RequirePrevilages } from 'src/privilege/privilege.decorator';
+import { HasPermissionGuard } from 'src/privilege/has-permission.guard';
 
 @Controller('images')
 export class ImagesController {
   constructor(private readonly imagesService: ImagesService) {}
 
-  @UseGuards(AuthGuard)
   @Get()
+  @UseGuards(AuthGuard)
+  @RequirePrevilages(UserPrivilege.IMAGES_READ)
+  @UseGuards(HasPermissionGuard)
   async getAll(): Promise<ImagesResponseDto> {
     return this.imagesService.getAll();
   }
 
-  @UseGuards(AuthGuard)
   @Post('/upload')
+  @UseGuards(AuthGuard)
+  @RequirePrevilages(UserPrivilege.IMAGES_WRITE)
+  @UseGuards(HasPermissionGuard)
   @UseInterceptors(FileInterceptor('image'))
   async upload(
     @Req() req: ApiRequestType,
@@ -40,8 +46,10 @@ export class ImagesController {
     return await this.imagesService.upload(image, req);
   }
 
-  @UseGuards(AuthGuard)
   @Delete('/:filename')
+  @UseGuards(AuthGuard)
+  @RequirePrevilages(UserPrivilege.IMAGES_DELETE)
+  @UseGuards(HasPermissionGuard)
   async delete(
     @Param('filename') filename: string,
   ): Promise<DeleteImageResponseDto> {
