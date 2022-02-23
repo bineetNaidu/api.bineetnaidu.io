@@ -9,7 +9,7 @@ import { UserDocument, User } from './models/user.model';
 import { hash, verify } from 'argon2';
 import { AuthResponseDto } from './dto/auth.response';
 import { JwtService } from '@nestjs/jwt';
-import { MyCtx } from '../shared/types';
+import { MyCtx, UserPrivilege } from '../shared/types';
 
 @Injectable()
 export class UserService {
@@ -29,6 +29,42 @@ export class UserService {
     storedPassword: string,
   ): Promise<boolean> {
     return verify(storedPassword, providedPassword);
+  }
+
+  async getAllUsers(): Promise<User[]> {
+    return this.userModel.find().exec();
+  }
+
+  async getUserById(id: string): Promise<User | null> {
+    return this.userModel.findById(id).exec();
+  }
+
+  async addUserPrivilegesToUser(
+    _id: string,
+    privileges: UserPrivilege[],
+  ): Promise<User | null> {
+    const user = await this.userModel.findById(_id);
+    if (!user) return null;
+
+    user.privileges = [...user.privileges, ...privileges];
+    await user.save();
+
+    return user;
+  }
+
+  async removeUserPrivilegesFromUser(
+    _id: string,
+    removePrivilege: UserPrivilege,
+  ): Promise<User | null> {
+    const user = await this.userModel.findById(_id);
+    if (!user) return null;
+
+    user.privileges = user.privileges.filter(
+      (privilege) => privilege !== removePrivilege,
+    );
+    await user.save();
+
+    return user;
   }
 
   async register(data: RegisterInput): Promise<AuthResponseDto> {

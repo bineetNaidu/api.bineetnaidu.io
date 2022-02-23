@@ -17,6 +17,7 @@ export enum UserPrivilege {
   PROJECTS_WRITE = 'projects:write',
   PROJECTS_DELETE = 'projects:delete',
   USERS_READ = 'users:read',
+  USERS_WRITE = 'users:write',
   LINKS_READ = 'links:read',
   LINKS_WRITE = 'links:write',
   LINKS_DELETE = 'links:delete',

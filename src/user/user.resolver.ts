@@ -7,11 +7,54 @@ import { LoginInput } from './dto/login.input';
 import { AuthResponseDto } from './dto/auth.response';
 import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from 'src/shared/guards/auth.guard';
-import { MyCtx } from 'src/shared/types';
+import { MyCtx, UserPrivilege } from 'src/shared/types';
+import { RequirePrevilages } from 'src/privilege/privilege.decorator';
+import { HasPermissionGuard } from 'src/privilege/has-permission.guard';
 
 @Resolver(User)
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
+
+  @Query(() => [User], { description: 'Get all users' })
+  @UseGuards(AuthGuard)
+  @RequirePrevilages(UserPrivilege.USERS_READ)
+  @UseGuards(HasPermissionGuard)
+  async getAllUsers(): Promise<User[]> {
+    return this.userService.getAllUsers();
+  }
+
+  @Query(() => User, { nullable: true, description: 'Get user by id' })
+  @UseGuards(AuthGuard)
+  @RequirePrevilages(UserPrivilege.USERS_READ)
+  @UseGuards(HasPermissionGuard)
+  async getUserById(@Args('_id') id: string): Promise<User | null> {
+    return this.userService.getUserById(id);
+  }
+
+  @Mutation(() => User, { nullable: true, description: 'Add user privileges' })
+  @UseGuards(AuthGuard)
+  @RequirePrevilages(UserPrivilege.USERS_WRITE)
+  @UseGuards(HasPermissionGuard)
+  async addUserPrivilegesToUser(
+    @Args('_id') _id: string,
+    @Args('privileges') privileges: UserPrivilege[],
+  ): Promise<User | null> {
+    return this.userService.addUserPrivilegesToUser(_id, privileges);
+  }
+
+  @Mutation(() => User, {
+    nullable: true,
+    description: 'Remove user privileges',
+  })
+  @UseGuards(AuthGuard)
+  @RequirePrevilages(UserPrivilege.USERS_WRITE)
+  @UseGuards(HasPermissionGuard)
+  async removeUserPrivilegesFromUser(
+    @Args('_id') _id: string,
+    @Args('removePrivilege') removePrivilege: UserPrivilege,
+  ): Promise<User | null> {
+    return this.userService.removeUserPrivilegesFromUser(_id, removePrivilege);
+  }
 
   @Mutation(() => AuthResponseDto, { description: 'Register a new user' })
   register(@Args('data') data: RegisterInput): Promise<AuthResponseDto> {

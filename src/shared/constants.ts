@@ -26,6 +26,7 @@ export const AdminUserPrivileges = [
   UserPrivilege.PROJECTS_WRITE,
   UserPrivilege.PROJECTS_DELETE,
   UserPrivilege.USERS_READ,
+  UserPrivilege.USERS_WRITE,
   UserPrivilege.LINKS_READ,
   UserPrivilege.LINKS_WRITE,
   UserPrivilege.LINKS_DELETE,
