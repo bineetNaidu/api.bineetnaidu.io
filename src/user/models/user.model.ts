@@ -1,27 +1,11 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql';
 import { BaseDocument } from '../../shared/BaseDocument.model';
+import { UserPrivilege } from 'src/shared/types';
+import { NormalUserPrivileges } from '../../shared/constants';
 
 export type UserDocument = User & Document;
-
-export enum UserRole {
-  ADMIN = 'ADMIN',
-  USER = 'USER',
-}
-
-registerEnumType(UserRole, {
-  name: 'UserRole',
-  description: 'The role of the user',
-  valuesMap: {
-    ADMIN: {
-      description: 'The user is an admin',
-    },
-    USER: {
-      description: 'The user is a regular user',
-    },
-  },
-});
 
 @ObjectType({
   description: 'User model',
@@ -44,9 +28,9 @@ export class User extends BaseDocument {
   @Prop({ required: true })
   lastName!: string;
 
-  @Field(() => UserRole, { description: 'The role of the user' })
-  @Prop({ enum: UserRole, default: UserRole.USER })
-  role: UserRole;
+  @Field(() => [String], { description: 'The Privileges of the user' })
+  @Prop({ default: NormalUserPrivileges, required: true })
+  privileges: UserPrivilege[];
 
   @Field({ description: 'The avatar of the user' })
   @Prop({ required: true })

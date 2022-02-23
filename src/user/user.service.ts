@@ -63,7 +63,7 @@ export class UserService {
 
     const payload = {
       userId: newUser.id,
-      role: newUser.role,
+      privileges: newUser.privileges,
     };
 
     const accessToken = this.jwtService.sign(payload);
@@ -108,7 +108,7 @@ export class UserService {
 
     const payload = {
       userId: user.id,
-      role: user.role,
+      privileges: user.privileges,
     };
     const accessToken = this.jwtService.sign(payload);
 
