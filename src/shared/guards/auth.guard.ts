@@ -21,7 +21,7 @@ export class AuthGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     if (context.getType() === 'http') {
       const req = context.switchToHttp().getRequest();
-      const token = req.headers['X-Access-Token'];
+      const token = req.headers['x-access-token'];
 
       try {
         if (!token) throw new UnauthorizedException('No token was provided');
@@ -39,7 +39,7 @@ export class AuthGuard implements CanActivate {
     } else if (context.getType<GqlContextType>() === 'graphql') {
       const ctx = GqlExecutionContext.create(context);
       const { req } = ctx.getContext();
-      const token = req.headers['X-Access-Token'];
+      const token = req.headers['x-access-token'];
 
       try {
         if (!token) throw new UnauthorizedException('No token was provided');
