@@ -1,4 +1,5 @@
 import 'dotenv/config';
+import { UserPrivilege } from './types';
 
 // Environment variables
 export const PORT = process.env.PORT || 3000;
@@ -16,6 +17,27 @@ export const MAPLIFY_MODEL_NAME = 'Maplify';
 export const PROJECT_MODEL_NAME = 'Project';
 export const USER_MODEL_NAME = 'User';
 export const IMAGE_MODEL_NAME = 'Image';
+
+export const AdminUserPrivileges = [
+  UserPrivilege.IMAGES_READ,
+  UserPrivilege.IMAGES_WRITE,
+  UserPrivilege.IMAGES_DELETE,
+  UserPrivilege.PROJECTS_READ,
+  UserPrivilege.PROJECTS_WRITE,
+  UserPrivilege.PROJECTS_DELETE,
+  UserPrivilege.USERS_READ,
+  UserPrivilege.LINKS_READ,
+  UserPrivilege.LINKS_WRITE,
+  UserPrivilege.LINKS_DELETE,
+];
+
+export const NormalUserPrivileges = [
+  UserPrivilege.IMAGES_READ,
+  UserPrivilege.PROJECTS_READ,
+  UserPrivilege.LINKS_READ,
+];
+
+export const PRIVILAGE_KEY = 'privileges';
 
 // Providers Names
 export const CLOUDINARY = 'Cloudinary';
