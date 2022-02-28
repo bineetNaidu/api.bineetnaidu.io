@@ -1,37 +1,29 @@
-import {
-  MiddlewareConsumer,
-  Module,
-  NestModule,
-  RequestMethod,
-} from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { LinksService } from './links.service';
 import { LinksController } from './links.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { LinkSchema } from './model/links.model';
-import { LINKS_MODEL_NAME } from 'src/shared/constants';
-import { IsAccessableMiddleware } from 'src/shared/middlewares/is-accessable.middleware';
+import {
+  JWT_SECRET,
+  LINKS_MODEL_NAME,
+  USER_MODEL_NAME,
+} from 'src/shared/constants';
 import { LinksResolver } from './links.resolver';
+import { JwtModule } from '@nestjs/jwt';
+import { UserSchema } from 'src/user/models/user.model';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: LINKS_MODEL_NAME, schema: LinkSchema }]),
+    JwtModule.register({
+      secret: JWT_SECRET,
+      signOptions: { expiresIn: '7d' },
+    }),
+    MongooseModule.forFeature([
+      { name: LINKS_MODEL_NAME, schema: LinkSchema },
+      { name: USER_MODEL_NAME, schema: UserSchema },
+    ]),
   ],
   controllers: [LinksController],
   providers: [LinksService, LinksResolver],
 })
-export class LinksModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(IsAccessableMiddleware).forRoutes({
-      path: 'links',
-      method: RequestMethod.POST,
-    });
-    consumer.apply(IsAccessableMiddleware).forRoutes({
-      path: 'links/:id',
-      method: RequestMethod.PUT,
-    });
-    consumer.apply(IsAccessableMiddleware).forRoutes({
-      path: 'links/:id',
-      method: RequestMethod.DELETE,
-    });
-  }
-}
+export class LinksModule {}
