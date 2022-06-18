@@ -57,13 +57,9 @@ export class Project extends BaseDocument {
   @Prop({ required: true, default: [] })
   technologies!: string[];
 
-  @Field(() => [String], { description: 'The images of the project' })
-  @Prop({ required: true, default: [] })
-  images?: string[];
-
-  @Field(() => Image, { description: 'The coverImage of the project' })
+  @Field(() => Image, { description: 'The thumbnail of the project' })
   @Prop({ required: true, type: Types.ObjectId, ref: IMAGE_MODEL_NAME })
-  coverImage!: string;
+  thumbnail!: string;
 
   @Field(() => User, { description: 'The user who created the project' })
   @Prop({

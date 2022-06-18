@@ -26,14 +26,8 @@ export class CreateProjectInput {
   })
   technologies!: string[];
 
-  @Field(() => [String], {
-    description: 'The images of the project',
-    nullable: true,
+  @Field(() => String, {
+    description: 'The thumbnail of the project',
   })
-  images?: string[];
-
-  @Field(() => [String], {
-    description: 'The Cover Image of the project',
-  })
-  coverImage!: string;
+  thumbnail!: string;
 }
