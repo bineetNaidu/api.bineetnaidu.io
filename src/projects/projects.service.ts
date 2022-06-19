@@ -19,7 +19,7 @@ export class ProjectsService {
     return await this.projectModel
       .find()
       .populate('user')
-      .populate('coverImage')
+      .populate('thumbnail')
       .exec();
   }
 
@@ -27,7 +27,7 @@ export class ProjectsService {
     return await this.projectModel
       .findById(_id)
       .populate('user')
-      .populate('coverImage')
+      .populate('thumbnail')
       .exec();
   }
 
