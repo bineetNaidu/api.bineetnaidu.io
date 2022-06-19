@@ -10,6 +10,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { UserDocument } from 'src/user/models/user.model';
 import { USER_MODEL_NAME } from '../constants';
 import { Model } from 'mongoose';
+import { ApiRequestType } from '../types';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -20,7 +21,7 @@ export class AuthGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     if (context.getType() === 'http') {
-      const req = context.switchToHttp().getRequest();
+      const req = context.switchToHttp().getRequest<ApiRequestType>();
       const token = req.headers['x-access-token'];
 
       try {

@@ -1,7 +1,7 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { Reflector } from '@nestjs/core';
-import { UserPrivilege } from 'src/shared/types';
+import { ApiRequestType, UserPrivilege } from 'src/shared/types';
 import { PRIVILAGE_KEY } from 'src/shared/constants';
 import { GqlContextType, GqlExecutionContext } from '@nestjs/graphql';
 
@@ -20,7 +20,7 @@ export class HasPermissionGuard implements CanActivate {
     }
 
     if (context.getType() === 'http') {
-      const { user } = context.switchToHttp().getRequest();
+      const { user } = context.switchToHttp().getRequest<ApiRequestType>();
       if (!user) {
         return false;
       }
