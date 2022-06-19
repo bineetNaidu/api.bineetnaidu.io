@@ -44,7 +44,9 @@ export class ProjectsService {
       user: req.user._id,
     });
 
-    return project;
+    const p = await project.populate('user', 'thumbnail');
+
+    return p;
   }
 
   async update(

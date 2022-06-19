@@ -29,8 +29,9 @@ export class ImagesService {
       uploadedBy: req.user._id,
     });
     await image.save();
+    const i = await image.populate('uploadedBy');
     return {
-      data: image,
+      data: i,
       created: image.isNew,
     };
   }
