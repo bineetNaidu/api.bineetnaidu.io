@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { LinksService } from './links.service';
-import { LinksController } from './links.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { LinkSchema } from './model/links.model';
 import {
@@ -23,7 +22,6 @@ import { UserSchema } from 'src/user/models/user.model';
       { name: USER_MODEL_NAME, schema: UserSchema },
     ]),
   ],
-  controllers: [LinksController],
   providers: [LinksService, LinksResolver],
 })
 export class LinksModule {}
