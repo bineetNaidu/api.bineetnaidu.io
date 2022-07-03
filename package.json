@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/bineetNaidu/api.bineetnaidu.io#readme",
   "scripts": {
+    "prepare": "husky install",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm run build",
     "prebuild": "rimraf dist",
     "build": "nest build",
@@ -61,6 +62,8 @@
     "rxjs": "^7.5.5"
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.0.3",
+    "@commitlint/config-conventional": "^17.0.3",
     "@nestjs/cli": "^8.2.6",
     "@nestjs/schematics": "^8.0.11",
     "@nestjs/testing": "^8.4.7",
@@ -75,6 +78,7 @@
     "eslint": "^8.18.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
+    "husky": "^8.0.1",
     "jest": "^28.1.1",
     "prettier": "^2.7.1",
     "supertest": "^6.2.3",
