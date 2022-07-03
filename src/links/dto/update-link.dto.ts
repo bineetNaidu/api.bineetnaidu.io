@@ -1,4 +1,13 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateLinkDto } from './create-link.dto';
+import { Field, InputType } from '@nestjs/graphql';
 
-export class UpdateLinkDto extends PartialType(CreateLinkDto) {}
+@InputType()
+export class UpdateLinkDto {
+  @Field({ nullable: true })
+  readonly label?: string;
+
+  @Field({ nullable: true })
+  readonly icon?: string;
+
+  @Field({ nullable: true })
+  readonly url?: string;
+}
