@@ -1,9 +1,9 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
-import { Observable } from 'rxjs';
 import { Reflector } from '@nestjs/core';
-import { ApiRequestType, UserPrivilege } from 'src/shared/types';
-import { PRIVILAGE_KEY } from 'src/shared/constants';
 import { GqlContextType, GqlExecutionContext } from '@nestjs/graphql';
+import { Observable } from 'rxjs';
+import { PRIVILAGE_KEY } from '../shared/constants';
+import { ApiRequestType, UserPrivilege } from '../shared/types';
 
 @Injectable()
 export class HasPermissionGuard implements CanActivate {

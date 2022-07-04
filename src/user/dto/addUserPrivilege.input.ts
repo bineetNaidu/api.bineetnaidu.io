@@ -1,6 +1,6 @@
-import { InputType, Field } from '@nestjs/graphql';
+import { Field, InputType } from '@nestjs/graphql';
 import { IsEnum, IsNotEmpty } from 'class-validator';
-import { UserPrivilege } from 'src/shared/types';
+import { UserPrivilege } from '../../shared/types';
 
 @InputType({
   description: 'Add User Privileges Input Dto',

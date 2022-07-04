@@ -1,15 +1,15 @@
-import { MongooseModule } from '@nestjs/mongoose';
 import {
   MiddlewareConsumer,
   Module,
   NestModule,
   RequestMethod,
 } from '@nestjs/common';
-import { MaplifyService } from './maplify.service';
+import { MongooseModule } from '@nestjs/mongoose';
+import { MAPLIFY_MODEL_NAME } from '../shared/constants';
+import { IsAccessableMiddleware } from '../shared/middlewares/is-accessable.middleware';
 import { MaplifyController } from './maplify.controller';
+import { MaplifyService } from './maplify.service';
 import { MaplifySchema } from './model/maplify.model';
-import { MAPLIFY_MODEL_NAME } from 'src/shared/constants';
-import { IsAccessableMiddleware } from 'src/shared/middlewares/is-accessable.middleware';
 
 @Module({
   imports: [

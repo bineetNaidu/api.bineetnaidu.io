@@ -1,4 +1,4 @@
-import { Field, ID, InterfaceType, GraphQLISODateTime } from '@nestjs/graphql';
+import { Field, GraphQLISODateTime, ID, InterfaceType } from '@nestjs/graphql';
 
 @InterfaceType()
 export abstract class BaseDocument {

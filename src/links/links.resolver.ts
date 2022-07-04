@@ -1,9 +1,9 @@
 import { UseGuards } from '@nestjs/common';
-import { Resolver, Query, Args, Mutation } from '@nestjs/graphql';
-import { HasPermissionGuard } from 'src/privilege/has-permission.guard';
-import { RequirePrevilages } from 'src/privilege/privilege.decorator';
-import { AuthGuard } from 'src/shared/guards/auth.guard';
-import { UserPrivilege } from 'src/shared/types';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { HasPermissionGuard } from '../privilege/has-permission.guard';
+import { RequirePrevilages } from '../privilege/privilege.decorator';
+import { AuthGuard } from '../shared/guards/auth.guard';
+import { UserPrivilege } from '../shared/types';
 import { CreateLinkDto } from './dto/create-link.dto';
 import { UpdateLinkDto } from './dto/update-link.dto';
 import { LinksService } from './links.service';

@@ -1,4 +1,4 @@
-import { ResponseDto } from 'src/shared/dto/response.dto';
+import { ResponseDto } from '../../shared/dto/response.dto';
 import { LinkDocument } from '../model/links.model';
 
 export class CreateLinkResponseDto extends ResponseDto<LinkDocument> {

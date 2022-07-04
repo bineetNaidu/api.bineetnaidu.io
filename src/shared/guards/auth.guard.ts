@@ -7,9 +7,9 @@ import {
 import { GqlContextType, GqlExecutionContext } from '@nestjs/graphql';
 import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/mongoose';
-import { UserDocument } from 'src/user/models/user.model';
-import { USER_MODEL_NAME } from '../constants';
 import { Model } from 'mongoose';
+import { UserDocument } from '../../user/models/user.model';
+import { USER_MODEL_NAME } from '../constants';
 import { ApiRequestType } from '../types';
 
 @Injectable()

@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { LINKS_MODEL_NAME } from 'src/shared/constants';
-import { FindAllLinksResponseDto } from './dto/link-response.dto';
+import { LINKS_MODEL_NAME } from '../shared/constants';
 import { CreateLinkDto } from './dto/create-link.dto';
+import { FindAllLinksResponseDto } from './dto/link-response.dto';
 import { UpdateLinkDto } from './dto/update-link.dto';
-import { LinkDocument, Link } from './model/links.model';
+import { Link, LinkDocument } from './model/links.model';
 
 @Injectable()
 export class LinksService {

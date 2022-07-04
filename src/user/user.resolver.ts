@@ -1,17 +1,17 @@
-import { Resolver, Query, Mutation, Args, Context } from '@nestjs/graphql';
-import { UserService } from './user.service';
-import { User } from './models/user.model';
-import { RegisterInput } from './dto/register.input';
-import { UpdateUserInput } from './dto/update-user.input';
-import { LoginInput } from './dto/login.input';
-import { AuthResponseDto } from './dto/auth.response';
 import { UseGuards } from '@nestjs/common';
-import { AuthGuard } from 'src/shared/guards/auth.guard';
-import { MyCtx, UserPrivilege } from 'src/shared/types';
-import { RequirePrevilages } from 'src/privilege/privilege.decorator';
-import { HasPermissionGuard } from 'src/privilege/has-permission.guard';
+import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { HasPermissionGuard } from '../privilege/has-permission.guard';
+import { RequirePrevilages } from '../privilege/privilege.decorator';
+import { AuthGuard } from '../shared/guards/auth.guard';
+import { MyCtx, UserPrivilege } from '../shared/types';
 import { AddUserPrivilegeInput } from './dto/addUserPrivilege.input';
+import { AuthResponseDto } from './dto/auth.response';
+import { LoginInput } from './dto/login.input';
+import { RegisterInput } from './dto/register.input';
 import { RemoveUserPrivilegeInput } from './dto/removeUserPrivilege.input';
+import { UpdateUserInput } from './dto/update-user.input';
+import { User } from './models/user.model';
+import { UserService } from './user.service';
 
 @Resolver(User)
 export class UserResolver {

@@ -1,4 +1,3 @@
-import { Request, Response } from '@nestjs/common';
 import { User } from '../user/models/user.model';
 
 export type ApiRequestType = Request & {

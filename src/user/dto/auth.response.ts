@@ -1,5 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { FieldError } from 'src/shared/dto/fieldError.dto';
+import { FieldError } from '../../shared/dto/fieldError.dto';
 import { User } from '../models/user.model';
 
 @ObjectType({

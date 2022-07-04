@@ -1,5 +1,5 @@
-import { IsString, IsNotEmpty, IsUrl } from 'class-validator';
-import { InputType, Field } from '@nestjs/graphql';
+import { Field, InputType } from '@nestjs/graphql';
+import { IsNotEmpty, IsString, IsUrl } from 'class-validator';
 
 @InputType()
 export class CreateLinkDto {

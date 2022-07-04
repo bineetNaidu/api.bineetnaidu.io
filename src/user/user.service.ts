@@ -1,15 +1,15 @@
 import { Injectable } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/mongoose';
+import { hash, verify } from 'argon2';
 import { Model } from 'mongoose';
 import { USER_MODEL_NAME } from '../shared/constants';
+import { MyCtx, UserPrivilege } from '../shared/types';
+import { AuthResponseDto } from './dto/auth.response';
 import { LoginInput } from './dto/login.input';
 import { RegisterInput } from './dto/register.input';
 import { UpdateUserInput } from './dto/update-user.input';
-import { UserDocument, User } from './models/user.model';
-import { hash, verify } from 'argon2';
-import { AuthResponseDto } from './dto/auth.response';
-import { JwtService } from '@nestjs/jwt';
-import { MyCtx, UserPrivilege } from '../shared/types';
+import { User, UserDocument } from './models/user.model';
 
 @Injectable()
 export class UserService {

@@ -1,9 +1,9 @@
+import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
 import { BaseDocument } from '../../shared/BaseDocument.model';
-import { UserPrivilege } from 'src/shared/types';
 import { NormalUserPrivileges } from '../../shared/constants';
+import { UserPrivilege } from '../../shared/types';
 
 export type UserDocument = User & Document;
 

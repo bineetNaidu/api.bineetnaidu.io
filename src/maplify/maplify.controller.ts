@@ -1,6 +1,6 @@
-import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
-import { MaplifyService } from './maplify.service';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { CreateMaplifyDto } from './dto/create-maplify.dto';
+import { MaplifyService } from './maplify.service';
 
 @Controller('v1/maplify')
 export class MaplifyController {

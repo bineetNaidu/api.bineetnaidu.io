@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { UserService } from './user.service';
-import { UserResolver } from './user.resolver';
+import { JwtModule } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
 import { JWT_SECRET, USER_MODEL_NAME } from '../shared/constants';
 import { UserSchema } from './models/user.model';
-import { JwtModule } from '@nestjs/jwt';
+import { UserResolver } from './user.resolver';
+import { UserService } from './user.service';
 
 @Module({
   imports: [

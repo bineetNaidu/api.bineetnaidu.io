@@ -1,9 +1,9 @@
-import { Module } from '@nestjs/common';
-import { DatabaseModule } from 'src/database/database.module';
-import { LinksModule } from 'src/links/links.module';
-import { MaplifyModule } from 'src/maplify/maplify.module';
-import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { Module } from '@nestjs/common';
+import { GraphQLModule } from '@nestjs/graphql';
+import { DatabaseModule } from '../database/database.module';
+import { LinksModule } from '../links/links.module';
+import { MaplifyModule } from '../maplify/maplify.module';
 import { UserModule } from '../user/user.module';
 
 @Module({

@@ -1,15 +1,15 @@
 import { Module } from '@nestjs/common';
-import { LinksService } from './links.service';
+import { JwtModule } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
-import { LinkSchema } from './model/links.model';
 import {
   JWT_SECRET,
   LINKS_MODEL_NAME,
   USER_MODEL_NAME,
-} from 'src/shared/constants';
+} from '../shared/constants';
+import { UserSchema } from '../user/models/user.model';
 import { LinksResolver } from './links.resolver';
-import { JwtModule } from '@nestjs/jwt';
-import { UserSchema } from 'src/user/models/user.model';
+import { LinksService } from './links.service';
+import { LinkSchema } from './model/links.model';
 
 @Module({
   imports: [
