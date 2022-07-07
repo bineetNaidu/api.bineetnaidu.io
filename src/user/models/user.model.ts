@@ -11,17 +11,11 @@ registerEnumType(UserPrivilege, {
   name: 'UserPrivilege',
   description: 'User privilege',
   valuesMap: {
-    IMAGES_DELETE: { description: 'User has the ability to Delete images' },
-    IMAGES_READ: { description: 'User has the ability to Read images' },
-    IMAGES_WRITE: { description: 'User has the ability to Write images' },
     USERS_READ: { description: 'User has the ability to Read users' },
     USERS_WRITE: { description: 'User has the ability to Write users' },
     LINKS_DELETE: { description: 'User has the ability to Delete links' },
     LINKS_READ: { description: 'User has the ability to Read links' },
     LINKS_WRITE: { description: 'User has the ability to Write links' },
-    PROJECTS_DELETE: { description: 'User has the ability to Delete projects' },
-    PROJECTS_READ: { description: 'User has the ability to Read projects' },
-    PROJECTS_WRITE: { description: 'User has the ability to Write projects' },
   },
 });
 
