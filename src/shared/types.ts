@@ -1,11 +1,9 @@
 import { User } from '../user/models/user.model';
 
-export type ApiRequestType = Request & {
-  user: User | undefined;
-};
 export interface MyCtx {
-  req: ApiRequestType;
+  req: Request;
   res: Response;
+  user: User | undefined;
 }
 
 export enum UserPrivilege {
