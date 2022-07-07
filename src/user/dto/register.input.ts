@@ -22,7 +22,7 @@ export class RegisterInput {
   @Field({
     description: "User's email",
   })
-  @IsEmail()
+  @IsEmail({}, { message: 'please enter a valid email' })
   @IsNotEmpty()
   email: string;
 

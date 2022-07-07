@@ -7,7 +7,7 @@ import { UserPrivilege } from '../../shared/types';
 })
 export class AddUserPrivilegeInput {
   @Field(() => [UserPrivilege], {
-    description: "User's email ",
+    description: "User's privileges",
   })
   @IsEnum(UserPrivilege)
   @IsNotEmpty()

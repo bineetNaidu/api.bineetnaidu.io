@@ -9,7 +9,7 @@ export class LoginInput {
     description: "User's email ",
   })
   @IsNotEmpty()
-  @IsEmail()
+  @IsEmail({}, { message: 'please enter a valid email' })
   email: string;
   @Field({
     description: "User's password ",
