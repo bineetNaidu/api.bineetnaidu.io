@@ -1,9 +1,14 @@
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+import {
+  CanActivate,
+  ExecutionContext,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { GqlContextType, GqlExecutionContext } from '@nestjs/graphql';
+import { GqlExecutionContext } from '@nestjs/graphql';
 import { Observable } from 'rxjs';
 import { PRIVILAGE_KEY } from '../shared/constants';
-import { ApiRequestType, UserPrivilege } from '../shared/types';
+import { MyCtx, UserPrivilege } from '../shared/types';
 
 @Injectable()
 export class HasPermissionGuard implements CanActivate {
@@ -19,22 +24,11 @@ export class HasPermissionGuard implements CanActivate {
       return true;
     }
 
-    if (context.getType() === 'http') {
-      const { user } = context.switchToHttp().getRequest<ApiRequestType>();
-      if (!user) {
-        return false;
-      }
-      return requiredPrivilages.some((role) => user.privileges.includes(role));
+    const ctx = GqlExecutionContext.create(context);
+    const { user } = ctx.getContext<MyCtx>();
+    if (!user) {
+      throw new UnauthorizedException('You need to logged in to access this');
     }
-    if (context.getType<GqlContextType>() === 'graphql') {
-      const ctx = GqlExecutionContext.create(context);
-      const { req } = ctx.getContext();
-      if (!req.user) {
-        return false;
-      }
-      return requiredPrivilages.some((role) =>
-        req.user.privileges.includes(role),
-      );
-    }
+    return requiredPrivilages.some((role) => user.privileges.includes(role));
   }
 }
