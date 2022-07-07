@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/mongoose';
 import { hash, verify } from 'argon2';
@@ -155,14 +155,25 @@ export class UserService {
   }
 
   async me(ctx: MyCtx): Promise<User | null> {
-    return ctx.req.user;
+    return ctx.user;
   }
 
-  async updateMe(
-    { req: { user } }: MyCtx,
-    data: UpdateUserInput,
-  ): Promise<User | null> {
+  async updateMe({ user }: MyCtx, data: UpdateUserInput): Promise<User | null> {
     if (!user) return null;
+
+    if (data.email !== user.email) {
+      const existingUser = await this.userModel.findOne({
+        email: data.email,
+      });
+      if (existingUser) {
+        throw new BadRequestException([
+          {
+            message: 'Cannot update email to an email that already exists',
+            field: 'email',
+          },
+        ]);
+      }
+    }
 
     const updatedUser = await this.userModel.findByIdAndUpdate(
       user._id,
@@ -175,7 +186,7 @@ export class UserService {
     return updatedUser;
   }
 
-  async deleteMe({ req: { user } }: MyCtx): Promise<boolean> {
+  async deleteMe({ user }: MyCtx): Promise<boolean> {
     if (!user) return false;
 
     await this.userModel.findByIdAndDelete(user._id);
