@@ -3,28 +3,20 @@ import { UserPrivilege } from './types';
 
 // Environment variables
 export const PORT = process.env.PORT || 3000;
-export const MONGO_URI = process.env.MONGO_URI;
 export const ACCESS_KEY = process.env.ACCESS_KEY;
 export const JWT_SECRET = process.env.JWT_SECRET;
 export const PROD = process.env.NODE_ENV === 'production';
-export const CLOUDINARY_CLOUD_NAME = process.env.CLOUDINARY_CLOUD_NAME;
-export const CLOUDINARY_API_KEY = process.env.CLOUDINARY_API_KEY;
-export const CLOUDINARY_API_SECRET = process.env.CLOUDINARY_API_SECRET;
+export const DEV = process.env.NODE_ENV === 'development';
+export const TEST = process.env.NODE_ENV === 'test';
+export const MONGO_DEV_URI = process.env.MONGO_URI;
+export const MONGO_TEST_URI = process.env.MONGO_TEST_URI;
 
 // Mongoose Models Names
 export const LINKS_MODEL_NAME = 'Link';
 export const MAPLIFY_MODEL_NAME = 'Maplify';
-export const PROJECT_MODEL_NAME = 'Project';
 export const USER_MODEL_NAME = 'User';
-export const IMAGE_MODEL_NAME = 'Image';
 
 export const AdminUserPrivileges = [
-  UserPrivilege.IMAGES_READ,
-  UserPrivilege.IMAGES_WRITE,
-  UserPrivilege.IMAGES_DELETE,
-  UserPrivilege.PROJECTS_READ,
-  UserPrivilege.PROJECTS_WRITE,
-  UserPrivilege.PROJECTS_DELETE,
   UserPrivilege.USERS_READ,
   UserPrivilege.USERS_WRITE,
   UserPrivilege.LINKS_READ,
@@ -32,11 +24,7 @@ export const AdminUserPrivileges = [
   UserPrivilege.LINKS_DELETE,
 ];
 
-export const NormalUserPrivileges = [
-  UserPrivilege.IMAGES_READ,
-  UserPrivilege.PROJECTS_READ,
-  UserPrivilege.LINKS_READ,
-];
+export const NormalUserPrivileges = [UserPrivilege.LINKS_READ];
 
 export const PRIVILAGE_KEY = 'privileges';
 
