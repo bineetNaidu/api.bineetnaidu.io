@@ -1,7 +1,8 @@
 import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { hash } from 'argon2';
-import { Connection } from 'mongoose';
+import * as mongoose from 'mongoose';
+import { connection, Connection } from 'mongoose';
 import * as request from 'supertest';
 import { AppModule } from '../src/app/app.module';
 import { DatabaseService } from '../src/database/database.service';
@@ -70,14 +71,14 @@ describe('UserModule (e2e)', () => {
       .get<DatabaseService>(DatabaseService)
       .getDbHandle();
     await app.init();
-  });
-
-  afterAll(async () => {
-    await app.close();
-  });
-
-  beforeEach(async () => {
     await dbConnection.collection('users').deleteMany({});
+  });
+
+  afterEach(async () => {
+    await dbConnection.close();
+    await mongoose.connection.close();
+    await connection.close();
+    await app.close();
   });
 
   it('should register a new user', async () => {
