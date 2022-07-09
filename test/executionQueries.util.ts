@@ -121,3 +121,44 @@ export const GET_USER_BY_ID_QUERY = `
 						}
 					}
 					`;
+
+export const CREATE_LINK = `
+	mutation CreateLink($data: CreateLinkDto!) {
+		createLink(data: $data) {
+				_id
+				label
+				url
+				icon
+				createdAt
+				updatedAt
+		}
+	}
+`;
+
+export const GET_LINKS = `
+	query GetLinks {
+		links {
+			_id
+			label
+			icon
+			url
+		}
+	}
+`;
+
+export const UPDATE_LINK = `
+	mutation UpdateLink($_id: String!, $data: UpdateLinkDto!) {
+		updateLink(id: $_id, data: $data) {
+			_id
+			label
+			url
+			icon
+		}
+	}
+`;
+
+export const DELETE_LINK = `
+	mutation DeleteLink($_id: String!) {
+		deleteLink(id: $_id)
+	}
+`;
