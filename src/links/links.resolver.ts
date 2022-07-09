@@ -3,6 +3,7 @@ import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { HasPermissionGuard } from '../privilege/has-permission.guard';
 import { RequirePrevilages } from '../privilege/privilege.decorator';
 import { AuthGuard } from '../shared/guards/auth.guard';
+import { ValidationPipe } from '../shared/pipes/validation.pipe';
 import { UserPrivilege } from '../shared/types';
 import { CreateLinkDto } from './dto/create-link.dto';
 import { UpdateLinkDto } from './dto/update-link.dto';
@@ -23,7 +24,7 @@ export class LinksResolver {
   @RequirePrevilages(UserPrivilege.LINKS_WRITE)
   @UseGuards(AuthGuard, HasPermissionGuard)
   async createLink(
-    @Args('data') createLinkInput: CreateLinkDto,
+    @Args('data', ValidationPipe) createLinkInput: CreateLinkDto,
   ): Promise<Link> {
     const createdLink = await this.linkService.create(createLinkInput);
     return createdLink;
@@ -34,7 +35,7 @@ export class LinksResolver {
   @UseGuards(AuthGuard, HasPermissionGuard)
   async updateLink(
     @Args('id') id: string,
-    @Args('data') updateLinkInput: UpdateLinkDto,
+    @Args('data', ValidationPipe) updateLinkInput: UpdateLinkDto,
   ): Promise<Link> {
     const updatedLink = await this.linkService.update(id, updateLinkInput);
     return updatedLink;
