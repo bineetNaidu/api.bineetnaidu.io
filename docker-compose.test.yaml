@@ -1,0 +1,12 @@
+version: '3.6'
+
+services:
+  test_db:
+    image: mongo
+    volumes:
+      - ./.data/db:/data/db
+    ports:
+      - 27018:27017
+    environment:
+      - MONGO_INITDB_DATABASE=test
+    restart: always
