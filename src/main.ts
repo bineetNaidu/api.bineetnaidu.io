@@ -1,9 +1,9 @@
-import helmet from 'helmet';
 import { ValidationPipe } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
+import helmet from 'helmet';
 import { AppModule } from './app/app.module';
 import {
-  PORT,
   CONNECT_SRC_URLS,
   FONTS_SRC_URLS,
   SCRIPTS_SRC_URLS,
@@ -12,6 +12,7 @@ import {
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const configService = app.get(ConfigService);
   app.enableCors({
     origin: '*',
     credentials: false,
@@ -42,6 +43,6 @@ async function bootstrap() {
     }),
   );
 
-  await app.listen(PORT);
+  await app.listen(configService.get('port'));
 }
 bootstrap();

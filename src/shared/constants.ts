@@ -1,16 +1,4 @@
-import 'dotenv/config';
 import { UserPrivilege } from './types';
-
-// Environment variables
-export const PORT = process.env.PORT || 3000;
-export const ACCESS_KEY = process.env.ACCESS_KEY;
-export const JWT_SECRET = process.env.JWT_SECRET;
-export const PROD = process.env.NODE_ENV === 'production';
-export const DEV = process.env.NODE_ENV === 'development';
-export const TEST = process.env.NODE_ENV === 'test';
-export const MONGO_URI = TEST
-  ? process.env.MONGO_TEST_URI
-  : process.env.MONGO_URI;
 
 // Mongoose Models Names
 export const LINKS_MODEL_NAME = 'Link';

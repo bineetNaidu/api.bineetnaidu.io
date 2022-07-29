@@ -19,3 +19,14 @@ export enum UserPrivilege {
   LINKS_WRITE = 'links:write',
   LINKS_DELETE = 'links:delete',
 }
+
+export interface Configuration {
+  port: number;
+  accessKey: string;
+  jwtSecret: string;
+  environment: string;
+  database: {
+    uri: string;
+    testUri?: string;
+  };
+}
