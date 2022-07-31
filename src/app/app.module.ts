@@ -2,6 +2,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
+import { envValidate } from 'src/config/env.validation';
 import { configuration } from '../config/configuration';
 import { DatabaseModule } from '../database/database.module';
 import { LinksModule } from '../links/links.module';
@@ -13,6 +14,7 @@ import { UserModule } from '../user/user.module';
   imports: [
     ConfigModule.forRoot({
       load: [configuration],
+      validate: envValidate,
       isGlobal: true,
       envFilePath: ['.env'],
     }),

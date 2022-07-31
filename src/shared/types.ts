@@ -27,6 +27,6 @@ export interface Configuration {
   environment: string;
   database: {
     uri: string;
-    testUri?: string;
+    testUri: string;
   };
 }
