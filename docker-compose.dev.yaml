@@ -8,5 +8,5 @@ services:
     ports:
       - 27018:27017
     environment:
-      - MONGO_INITDB_DATABASE=dev.api.bineetnaidu.io
+      - MONGO_INITDB_DATABASE=dev_db
     restart: always
