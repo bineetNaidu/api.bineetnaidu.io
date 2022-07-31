@@ -4,9 +4,9 @@ services:
   test_db:
     image: mongo
     volumes:
-      - ./.data/test_db:/data/db
+      - ./.data/dev_db:/data/db
     ports:
       - 27018:27017
     environment:
-      - MONGO_INITDB_DATABASE=test_db
+      - MONGO_INITDB_DATABASE=dev_db
     restart: always
