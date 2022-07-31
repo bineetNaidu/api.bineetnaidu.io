@@ -5,11 +5,10 @@ name: Test CI
 
 on:
   pull_request:
-    branches: [ "master" ]
+    branches: ["master"]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
@@ -18,14 +17,14 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'yarn'
-    - run: yarn install
-    - run: yarn build
-    - run: docker-compose -f docker-compose.test.yaml up -d
-    - run: yarn test:e2e
-    - run: docker-compose -f docker-compose.test.yaml down
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "yarn"
+      - run: yarn install
+      - run: yarn build
+      - run: docker-compose -f docker-compose.test.yaml up -d
+      - run: MONGO_TEST_URI='mongodb://localhost:27018/test_db' ACCESS_KEY='accessKey' JWT_SECRET='secret' NODE_ENV='test' yarn test:e2e
+      - run: docker-compose -f docker-compose.test.yaml down
