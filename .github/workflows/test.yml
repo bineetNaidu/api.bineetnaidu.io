@@ -26,5 +26,10 @@ jobs:
       - run: yarn install
       - run: yarn build
       - run: docker-compose -f docker-compose.test.yaml up -d
-      - run: MONGO_TEST_URI='mongodb://localhost:27018/test_db' ACCESS_KEY='accessKey' JWT_SECRET='secret' NODE_ENV='test' yarn test:e2e
+      - run: set MONGO_TEST_URI='mongodb://localhost:27018/test_db'
+      - run: set MONGO_URI='mongodb://localhost:27018/test_db'
+      - run: set ACCESS_KEY='accessKey'
+      - run: set JWT_SECRET='secret'
+      - run: set NODE_ENV='test'
+      - run: yarn test:e2e
       - run: docker-compose -f docker-compose.test.yaml down
