@@ -1,4 +1,4 @@
-import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { BaseDocument } from '../../shared/BaseDocument.model';
@@ -6,18 +6,6 @@ import { NormalUserPrivileges } from '../../shared/constants';
 import { UserPrivilege } from '../../shared/types';
 
 export type UserDocument = User & Document;
-
-registerEnumType(UserPrivilege, {
-  name: 'UserPrivilege',
-  description: 'User privilege',
-  valuesMap: {
-    USERS_READ: { description: 'User has the ability to Read users' },
-    USERS_WRITE: { description: 'User has the ability to Write users' },
-    LINKS_DELETE: { description: 'User has the ability to Delete links' },
-    LINKS_READ: { description: 'User has the ability to Read links' },
-    LINKS_WRITE: { description: 'User has the ability to Write links' },
-  },
-});
 
 @ObjectType({
   description: 'User model',

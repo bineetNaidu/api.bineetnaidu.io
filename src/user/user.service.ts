@@ -41,12 +41,12 @@ export class UserService {
 
   async addUserPrivilegesToUser(
     _id: string,
-    privileges: UserPrivilege[],
+    privilege: UserPrivilege,
   ): Promise<User | null> {
     const user = await this.userModel.findById(_id);
     if (!user) return null;
 
-    user.privileges = [...user.privileges, ...privileges];
+    user.privileges.push(privilege);
     await user.save();
 
     return user;

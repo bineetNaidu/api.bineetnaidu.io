@@ -37,9 +37,9 @@ export class UserResolver {
   @UseGuards(AuthGuard, HasPermissionGuard)
   async addUserPrivilegesToUser(
     @Args('_id') _id: string,
-    @Args('data') { privileges }: AddUserPrivilegeInput,
+    @Args('data') { privilege }: AddUserPrivilegeInput,
   ): Promise<User | null> {
-    return this.userService.addUserPrivilegesToUser(_id, privileges);
+    return this.userService.addUserPrivilegesToUser(_id, privilege);
   }
 
   @Mutation(() => User, {
