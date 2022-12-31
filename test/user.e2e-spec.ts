@@ -549,7 +549,7 @@ describe('UserModule (e2e)', () => {
           variables: {
             _id: testUserBody.data.register.user._id,
             data: {
-              privileges: ['USERS_READ', 'USERS_WRITE'],
+              privilege: UserPrivilege.USERS_READ,
             },
           },
         })
@@ -559,9 +559,6 @@ describe('UserModule (e2e)', () => {
     expect(addPrivilegeBody.data.addUserPrivilegesToUser).toBeTruthy();
     expect(addPrivilegeBody.data.addUserPrivilegesToUser.privileges).toContain(
       UserPrivilege.USERS_READ,
-    );
-    expect(addPrivilegeBody.data.addUserPrivilegesToUser.privileges).toContain(
-      UserPrivilege.USERS_WRITE,
     );
   });
 
@@ -610,7 +607,7 @@ describe('UserModule (e2e)', () => {
         variables: {
           _id: '5e8f8f8f8f8f8f8f8f8f8f8',
           data: {
-            privileges: ['USERS_READ', 'USERS_WRITE'],
+            privilege: UserPrivilege.USERS_READ,
           },
         },
       });
@@ -691,7 +688,7 @@ describe('UserModule (e2e)', () => {
           variables: {
             _id: testUserBody.data.register.user._id,
             data: {
-              privileges: ['USERS_READ', 'USERS_WRITE'],
+              privilege: UserPrivilege.USERS_READ,
             },
           },
         })
