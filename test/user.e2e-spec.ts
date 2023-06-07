@@ -2,7 +2,7 @@ import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { hash } from 'argon2';
 import * as mongoose from 'mongoose';
-import { connection, Connection } from 'mongoose';
+import { Connection, connection } from 'mongoose';
 import * as request from 'supertest';
 import { AppModule } from '../src/app/app.module';
 import { DatabaseService } from '../src/database/database.service';
@@ -146,7 +146,7 @@ describe('UserModule (e2e)', () => {
     expect(status).toBe(200);
     expect(body.data).toBeNull();
     expect(body.errors).toBeDefined();
-    expect(body.errors[0].extensions.response.message).toEqual([
+    expect(body.errors[0].extensions.originalError.message).toEqual([
       {
         field: 'email',
         message: 'please enter a valid email',
@@ -170,7 +170,7 @@ describe('UserModule (e2e)', () => {
     expect(status).toBe(200);
     expect(body.data).toBeNull();
     expect(body.errors).toBeDefined();
-    expect(body.errors[0].extensions.response.message).toEqual([
+    expect(body.errors[0].extensions.originalError.message).toEqual([
       {
         field: 'email',
         message: 'email should not be empty',
@@ -231,7 +231,7 @@ describe('UserModule (e2e)', () => {
     expect(status).toBe(200);
     expect(body.data).toBeNull();
     expect(body.errors).toBeDefined();
-    expect(body.errors[0].extensions.response.message).toEqual([
+    expect(body.errors[0].extensions.originalError.message).toEqual([
       {
         field: 'email',
         message: 'please enter a valid email',
@@ -399,7 +399,7 @@ describe('UserModule (e2e)', () => {
     expect(updateStatus).toBe(200);
     expect(updateBody.data.updateMe).toBeNull();
     expect(updateBody.errors).toBeDefined();
-    expect(updateBody.errors[0].extensions.response.message).toEqual([
+    expect(updateBody.errors[0].extensions.originalError.message).toEqual([
       {
         field: 'email',
         message: 'please enter a valid email',
@@ -454,7 +454,7 @@ describe('UserModule (e2e)', () => {
     expect(updateStatus).toBe(200);
     expect(updateBody.data.updateMe).toBeNull();
     expect(updateBody.errors).toBeDefined();
-    expect(updateBody.errors[0].extensions.response.message).toEqual([
+    expect(updateBody.errors[0].extensions.originalError.message).toEqual([
       {
         field: 'email',
         message: 'Cannot update email to an email that already exists',
@@ -477,10 +477,10 @@ describe('UserModule (e2e)', () => {
     expect(status).toBe(200);
     expect(body.data.updateMe).toBeNull();
     expect(body.errors).toBeDefined();
-    expect(body.errors[0].extensions.response.message).toEqual(
+    expect(body.errors[0].extensions.originalError.message).toEqual(
       'No token was provided',
     );
-    expect(body.errors[0].extensions.response.statusCode).toEqual(401);
+    expect(body.errors[0].extensions.originalError.statusCode).toEqual(401);
     expect(body.errors[0].extensions.code).toEqual('UNAUTHENTICATED');
   });
 
@@ -518,10 +518,10 @@ describe('UserModule (e2e)', () => {
     expect(status).toBe(200);
     expect(body.data).toBeNull();
     expect(body.errors).toBeDefined();
-    expect(body.errors[0].extensions.response.message).toEqual(
+    expect(body.errors[0].extensions.originalError.message).toEqual(
       'No token was provided',
     );
-    expect(body.errors[0].extensions.response.statusCode).toEqual(401);
+    expect(body.errors[0].extensions.originalError.statusCode).toEqual(401);
     expect(body.errors[0].extensions.code).toEqual('UNAUTHENTICATED');
   });
 
@@ -614,10 +614,10 @@ describe('UserModule (e2e)', () => {
     expect(status).toBe(200);
     expect(body.data.addUserPrivilegesToUser).toBeNull();
     expect(body.errors).toBeDefined();
-    expect(body.errors[0].extensions.response.message).toEqual(
+    expect(body.errors[0].extensions.originalError.message).toEqual(
       'No token was provided',
     );
-    expect(body.errors[0].extensions.response.statusCode).toEqual(401);
+    expect(body.errors[0].extensions.originalError.statusCode).toEqual(401);
     expect(body.errors[0].extensions.code).toEqual('UNAUTHENTICATED');
 
     const { body: removePrivilegeBody, status: removePrivilegeStatus } =
@@ -635,10 +635,10 @@ describe('UserModule (e2e)', () => {
     expect(removePrivilegeStatus).toBe(200);
     expect(removePrivilegeBody.data.removeUserPrivilegesFromUser).toBeNull();
     expect(body.errors).toBeDefined();
-    expect(body.errors[0].extensions.response.message).toEqual(
+    expect(body.errors[0].extensions.originalError.message).toEqual(
       'No token was provided',
     );
-    expect(body.errors[0].extensions.response.statusCode).toEqual(401);
+    expect(body.errors[0].extensions.originalError.statusCode).toEqual(401);
     expect(body.errors[0].extensions.code).toEqual('UNAUTHENTICATED');
   });
 
@@ -672,11 +672,11 @@ describe('UserModule (e2e)', () => {
     expect(removePrivilegeStatus).toBe(200);
     expect(removePrivilegeBody.data.removeUserPrivilegesFromUser).toBeNull();
     expect(removePrivilegeBody.errors).toBeDefined();
-    expect(removePrivilegeBody.errors[0].extensions.response.message).toEqual(
-      'Forbidden resource',
-    );
     expect(
-      removePrivilegeBody.errors[0].extensions.response.statusCode,
+      removePrivilegeBody.errors[0].extensions.originalError.message,
+    ).toEqual('Forbidden resource');
+    expect(
+      removePrivilegeBody.errors[0].extensions.originalError.statusCode,
     ).toEqual(403);
     expect(removePrivilegeBody.errors[0].extensions.code).toEqual('FORBIDDEN');
 
@@ -696,12 +696,12 @@ describe('UserModule (e2e)', () => {
     expect(addPrivilegeStatus).toBe(200);
     expect(addPrivilegeBody.data.addUserPrivilegesToUser).toBeNull();
     expect(addPrivilegeBody.errors).toBeDefined();
-    expect(addPrivilegeBody.errors[0].extensions.response.message).toEqual(
+    expect(addPrivilegeBody.errors[0].extensions.originalError.message).toEqual(
       'Forbidden resource',
     );
-    expect(addPrivilegeBody.errors[0].extensions.response.statusCode).toEqual(
-      403,
-    );
+    expect(
+      addPrivilegeBody.errors[0].extensions.originalError.statusCode,
+    ).toEqual(403);
     expect(addPrivilegeBody.errors[0].extensions.code).toEqual('FORBIDDEN');
   });
 
@@ -717,10 +717,10 @@ describe('UserModule (e2e)', () => {
     expect(status).toBe(200);
     expect(body.data.getUserById).toBeNull();
     expect(body.errors).toBeDefined();
-    expect(body.errors[0].extensions.response.message).toEqual(
+    expect(body.errors[0].extensions.originalError.message).toEqual(
       'No token was provided',
     );
-    expect(body.errors[0].extensions.response.statusCode).toEqual(401);
+    expect(body.errors[0].extensions.originalError.statusCode).toEqual(401);
 
     const { body: getUsersBody, status: getUsersStatus } = await request(
       app.getHttpServer(),
@@ -732,10 +732,12 @@ describe('UserModule (e2e)', () => {
     expect(getUsersStatus).toBe(200);
     expect(getUsersBody.data).toBeNull();
     expect(getUsersBody.errors).toBeDefined();
-    expect(getUsersBody.errors[0].extensions.response.message).toEqual(
+    expect(getUsersBody.errors[0].extensions.originalError.message).toEqual(
       'No token was provided',
     );
-    expect(getUsersBody.errors[0].extensions.response.statusCode).toEqual(401);
+    expect(getUsersBody.errors[0].extensions.originalError.statusCode).toEqual(
+      401,
+    );
   });
 
   it('should not get user/users if auth user dont have the privilege', async () => {
@@ -763,10 +765,12 @@ describe('UserModule (e2e)', () => {
     expect(getUsersStatus).toBe(200);
     expect(getUsersBody.data).toBeNull();
     expect(getUsersBody.errors).toBeDefined();
-    expect(getUsersBody.errors[0].extensions.response.message).toEqual(
+    expect(getUsersBody.errors[0].extensions.originalError.message).toEqual(
       'Forbidden resource',
     );
-    expect(getUsersBody.errors[0].extensions.response.statusCode).toEqual(403);
+    expect(getUsersBody.errors[0].extensions.originalError.statusCode).toEqual(
+      403,
+    );
 
     const { body: getUserBody, status: getUserStatus } = await request(
       app.getHttpServer(),
@@ -782,10 +786,12 @@ describe('UserModule (e2e)', () => {
     expect(getUserStatus).toBe(200);
     expect(getUserBody.data.getUserById).toBeNull();
     expect(getUserBody.errors).toBeDefined();
-    expect(getUserBody.errors[0].extensions.response.message).toEqual(
+    expect(getUserBody.errors[0].extensions.originalError.message).toEqual(
       'Forbidden resource',
     );
-    expect(getUserBody.errors[0].extensions.response.statusCode).toEqual(403);
+    expect(getUserBody.errors[0].extensions.originalError.statusCode).toEqual(
+      403,
+    );
   });
   it('should get all users if auth user have the privilege', async () => {
     const adminAccessToken = await createAdminUser(app, dbConnection);

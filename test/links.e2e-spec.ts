@@ -2,7 +2,7 @@ import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { hash } from 'argon2';
 import * as mongoose from 'mongoose';
-import { connection, Connection } from 'mongoose';
+import { Connection, connection } from 'mongoose';
 import * as request from 'supertest';
 import { AppModule } from '../src/app/app.module';
 import { DatabaseService } from '../src/database/database.service';
@@ -118,10 +118,10 @@ describe('LinksModule (e2e)', () => {
     expect(status).toBe(200);
     expect(body.data).toBeNull();
     expect(body.errors).toBeDefined();
-    expect(body.errors[0].extensions.response.message).toEqual(
+    expect(body.errors[0].extensions.originalError.message).toEqual(
       'No token was provided',
     );
-    expect(body.errors[0].extensions.response.statusCode).toEqual(401);
+    expect(body.errors[0].extensions.originalError.statusCode).toEqual(401);
     expect(body.errors[0].extensions.code).toEqual('UNAUTHENTICATED');
   });
 
@@ -157,12 +157,12 @@ describe('LinksModule (e2e)', () => {
     expect(createLinkStatus).toBe(200);
     expect(createLinkBody.data).toBeNull();
     expect(createLinkBody.errors).toBeDefined();
-    expect(createLinkBody.errors[0].extensions.response.message).toEqual(
+    expect(createLinkBody.errors[0].extensions.originalError.message).toEqual(
       'Forbidden resource',
     );
-    expect(createLinkBody.errors[0].extensions.response.statusCode).toEqual(
-      403,
-    );
+    expect(
+      createLinkBody.errors[0].extensions.originalError.statusCode,
+    ).toEqual(403);
     expect(createLinkBody.errors[0].extensions.code).toEqual('FORBIDDEN');
   });
 
@@ -216,12 +216,12 @@ describe('LinksModule (e2e)', () => {
     expect(updateLinkStatus).toBe(200);
     expect(updateLinkBody.data.updateLink).toBeNull();
     expect(updateLinkBody.errors).toBeDefined();
-    expect(updateLinkBody.errors[0].extensions.response.message).toEqual(
+    expect(updateLinkBody.errors[0].extensions.originalError.message).toEqual(
       'No token was provided',
     );
-    expect(updateLinkBody.errors[0].extensions.response.statusCode).toEqual(
-      401,
-    );
+    expect(
+      updateLinkBody.errors[0].extensions.originalError.statusCode,
+    ).toEqual(401);
     expect(updateLinkBody.errors[0].extensions.code).toEqual('UNAUTHENTICATED');
   });
 
@@ -257,12 +257,12 @@ describe('LinksModule (e2e)', () => {
     expect(updateLinkStatus).toBe(200);
     expect(updateLinkBody.data.updateLink).toBeNull();
     expect(updateLinkBody.errors).toBeDefined();
-    expect(updateLinkBody.errors[0].extensions.response.message).toEqual(
+    expect(updateLinkBody.errors[0].extensions.originalError.message).toEqual(
       'Forbidden resource',
     );
-    expect(updateLinkBody.errors[0].extensions.response.statusCode).toEqual(
-      403,
-    );
+    expect(
+      updateLinkBody.errors[0].extensions.originalError.statusCode,
+    ).toEqual(403);
     expect(updateLinkBody.errors[0].extensions.code).toEqual('FORBIDDEN');
   });
 
@@ -323,10 +323,10 @@ describe('LinksModule (e2e)', () => {
       });
     expect(body.data).toBeNull();
     expect(body.errors).toBeDefined();
-    expect(body.errors[0].extensions.response.message).toEqual(
+    expect(body.errors[0].extensions.originalError.message).toEqual(
       'No token was provided',
     );
-    expect(body.errors[0].extensions.response.statusCode).toEqual(401);
+    expect(body.errors[0].extensions.originalError.statusCode).toEqual(401);
     expect(body.errors[0].extensions.code).toEqual('UNAUTHENTICATED');
   });
 
@@ -358,12 +358,12 @@ describe('LinksModule (e2e)', () => {
     expect(deleteLinkStatus).toBe(200);
     expect(deleteLinkBody.data).toBeNull();
     expect(deleteLinkBody.errors).toBeDefined();
-    expect(deleteLinkBody.errors[0].extensions.response.message).toEqual(
+    expect(deleteLinkBody.errors[0].extensions.originalError.message).toEqual(
       'Forbidden resource',
     );
-    expect(deleteLinkBody.errors[0].extensions.response.statusCode).toEqual(
-      403,
-    );
+    expect(
+      deleteLinkBody.errors[0].extensions.originalError.statusCode,
+    ).toEqual(403);
     expect(deleteLinkBody.errors[0].extensions.code).toEqual('FORBIDDEN');
   });
 

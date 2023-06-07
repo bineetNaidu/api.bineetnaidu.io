@@ -49,8 +49,8 @@ export class LinksService {
       return false;
     }
 
-    await link.remove();
+    const result = await this.linkModel.deleteOne({ _id: id });
 
-    return true;
+    return result.acknowledged;
   }
 }
